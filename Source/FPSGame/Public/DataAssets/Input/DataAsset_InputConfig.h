@@ -4,8 +4,27 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "GameplayTagContainer.h"
 #include "DataAsset_InputConfig.generated.h"
 
+class UInputAction;
+class UInputMappingContext;
+USTRUCT(BlueprintType)
+struct FFPSInputActionConfig
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (Categories = "InputTag"))
+	FGameplayTag InputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputAction> InputAction;
+
+	bool IsValid() const
+	{
+		return InputTag.IsValid() && InputAction;
+	}
+};
 /**
  * 
  */
@@ -13,5 +32,15 @@ UCLASS()
 class FPSGAME_API UDataAsset_InputConfig : public UDataAsset
 {
 	GENERATED_BODY()
-	
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;  //  °´¼ü°ó¶¨
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FFPSInputActionConfig> NativeInputActions;
+
+	TObjectPtr<UInputAction> FindNativeInputActionByTag(const FGameplayTag& InInputTag) const;
+
+
 };
