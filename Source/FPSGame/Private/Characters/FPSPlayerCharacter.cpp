@@ -25,7 +25,7 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 	FirstPersonCamera->bEnableFirstPersonFieldOfView = true;
 	FirstPersonCamera->bUsePawnControlRotation = true;
 
-	GetCharacterMovement()->bOrientRotationToMovement = true;  //  将朝向与移动的方向保持一致
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;  //  这里与TPS的处理方式有点不同，需要让相机在Yaw的旋转影响角色的Yaw Rotation，因此要使用此设置
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
