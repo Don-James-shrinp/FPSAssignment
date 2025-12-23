@@ -50,18 +50,34 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	//  绑定Input事件的回调函数
 
 	FPSInputComponent->BindNativeInputAction(
-		InputConfigDataAsset.Get(),
+		InputConfigDataAsset,
 		FPSGameplayTags::InputTag_Move, 
 		ETriggerEvent::Triggered, 
 		this, 
 		&ThisClass::Input_Move);
 
 	FPSInputComponent->BindNativeInputAction(
-		InputConfigDataAsset.Get(),
+		InputConfigDataAsset,
 		FPSGameplayTags::InputTag_Look,
 		ETriggerEvent::Triggered,
 		this,
 		&ThisClass::Input_Look);
+
+	FPSInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		FPSGameplayTags::InputTag_Jump,
+		ETriggerEvent::Started,
+		this,
+		&ThisClass::Input_Jump
+	);
+
+	FPSInputComponent->BindNativeInputAction(
+		InputConfigDataAsset,
+		FPSGameplayTags::InputTag_Jump,
+		ETriggerEvent::Completed,
+		this,
+		&ThisClass::Input_StopJumping
+	);
 
 }
 
@@ -99,4 +115,14 @@ void AFPSPlayerCharacter::Input_Look(const FInputActionValue& InputActionValue)
 	{
 		AddControllerPitchInput(-LookAxisVector.Y);
 	}
+}
+
+void AFPSPlayerCharacter::Input_Jump(const FInputActionValue& InputActionValue)
+{
+	Jump();
+}
+
+void AFPSPlayerCharacter::Input_StopJumping(const FInputActionValue& InputActionValue)
+{
+	StopJumping();
 }
