@@ -3,6 +3,7 @@
 
 #include "Characters/FPSCharacterBase.h"
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
+#include "AbilitySystem/FPSAttributeSet.h"
 
 // Sets default values
 AFPSCharacterBase::AFPSCharacterBase()
@@ -13,6 +14,8 @@ AFPSCharacterBase::AFPSCharacterBase()
 	GetMesh()->bReceivesDecals = false;
 
 	FPSAbilitySystemComponent = CreateDefaultSubobject<UFPSAbilitySystemComponent>(TEXT("FPSAbilitySystemComponent"));
+
+	FPSAttributeSet = CreateDefaultSubobject<UFPSAttributeSet>(TEXT("FPSAttributeSet"));
 
 }
 

@@ -20,7 +20,7 @@ void UDataAsset_PlayerStartupData::GiveToAbilitySystemComponent(UFPSAbilitySyste
 		{
 			continue;
 		}
-		FGameplayAbilitySpec AbilitySpec;
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);  //  给Ability赋予InputTag，使其能够关联起来

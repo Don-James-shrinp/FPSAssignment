@@ -9,6 +9,7 @@
 
 class UFPSAbilitySystemComponent;
 class UDataAsset_StartupDataBase;
+class UFPSAttributeSet;
 UCLASS()
 class FPSGAME_API AFPSCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
@@ -26,6 +27,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
 	TObjectPtr<UFPSAbilitySystemComponent> FPSAbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	TObjectPtr<UFPSAttributeSet> FPSAttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartupDataBase> CharacterStartupData;

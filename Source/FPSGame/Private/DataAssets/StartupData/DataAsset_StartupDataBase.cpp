@@ -22,15 +22,13 @@ void UDataAsset_StartupDataBase::GrantAbilities(const TArray<TSubclassOf<UFPSGam
 	{
 		return;
 	}
-	for (const TSubclassOf<UFPSGameplayAbility> &Ability : InAbilitiesToGive)
+	for (const TSubclassOf<UFPSGameplayAbility>& Ability : InAbilitiesToGive)
 	{
 		if (!Ability)
 		{
 			return;
 		}
-		Debug::Print(TEXT("Ability Granted!"));
-
-		FGameplayAbilitySpec AbilitySpec;
+		FGameplayAbilitySpec AbilitySpec(Ability);  //  Bug在这里，初始化的时候没有用Ability作为参数进行初始化，而是使用的默认初始化
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();  //  这是ASC的初始化信息，在Character中被赋予这些信息
 		AbilitySpec.Level = ApplyLevel;
 		InASCToGive->GiveAbility(AbilitySpec);
