@@ -9,6 +9,7 @@
 #include "Components/Input/FPSInputComponent.h"
 #include "FPSGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DataAssets/StartupData/DataAsset_PlayerStartupData.h"
 
 AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
@@ -29,8 +30,6 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 500.f, 0.f);
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
-
-	//  TODO: 修复旋转视角没法改变移动朝向
 }
 
 void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -79,6 +78,26 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		&ThisClass::Input_StopJumping
 	);
 
+}
+
+void AFPSPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (!CharacterStartupData.IsNull())
+	{
+		if (UDataAsset_StartupDataBase* LoadedData = CharacterStartupData.LoadSynchronous())  //  加载Startup DataAsset
+		{
+			int32 AbilityApplyLevel = 1;
+
+			LoadedData->GiveToAbilitySystemComponent(FPSAbilitySystemComponent, AbilityApplyLevel);
+		}
+	}
+}
+
+void AFPSPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
 }
 
 void AFPSPlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)

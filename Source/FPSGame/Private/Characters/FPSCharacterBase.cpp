@@ -2,6 +2,7 @@
 
 
 #include "Characters/FPSCharacterBase.h"
+#include "AbilitySystem/FPSAbilitySystemComponent.h"
 
 // Sets default values
 AFPSCharacterBase::AFPSCharacterBase()
@@ -11,4 +12,23 @@ AFPSCharacterBase::AFPSCharacterBase()
 
 	GetMesh()->bReceivesDecals = false;
 
+	FPSAbilitySystemComponent = CreateDefaultSubobject<UFPSAbilitySystemComponent>(TEXT("FPSAbilitySystemComponent"));
+
+}
+
+UAbilitySystemComponent* AFPSCharacterBase::GetAbilitySystemComponent() const
+{
+	return GetAbilitySystemComponent();
+}
+
+void AFPSCharacterBase::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	if (FPSAbilitySystemComponent)
+	{
+		FPSAbilitySystemComponent->InitAbilityActorInfo(this, this);
+
+		ensureMsgf(!CharacterStartupData.IsNull(), TEXT("Forgot to assign startup data to %s"), *GetActorNameOrLabel());  //  »∑±£∏≥”Ë¡ÀStartupData
+	}
 }

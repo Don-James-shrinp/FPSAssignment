@@ -4,9 +4,10 @@
 #include "AnimInstances/FPSCharacterAnimInstance.h"
 #include "Characters/FPSCharacterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "KismetAnimationLibrary.h"
 void UFPSCharacterAnimInstance::NativeInitializeAnimation()
 {
-	if (OwningCharacter = Cast<AFPSCharacterBase>(TryGetPawnOwner()))
+	if ((OwningCharacter = Cast<AFPSCharacterBase>(TryGetPawnOwner())))
 	{
 		OwningMovementComponent = OwningCharacter->GetCharacterMovement();
 	}
@@ -24,7 +25,7 @@ void UFPSCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecon
 
 	const FRotator CharacterRotation = OwningCharacter->GetActorRotation();
 
-	float CaculatedDirection = CalculateDirection(Velocity, CharacterRotation);
+	float CaculatedDirection = UKismetAnimationLibrary::CalculateDirection(Velocity, CharacterRotation);
 
 	if (OwningMovementComponent->bOrientRotationToMovement)
 	{

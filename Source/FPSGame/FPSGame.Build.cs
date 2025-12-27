@@ -14,7 +14,9 @@ public class FPSGame : ModuleRules
 			"CoreUObject", 
 			"Engine", 
 			"InputCore",
-            "GameplayTags"
+            "GameplayTags",
+            "GameplayTasks",
+            "AnimGraphRuntime"
         });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
