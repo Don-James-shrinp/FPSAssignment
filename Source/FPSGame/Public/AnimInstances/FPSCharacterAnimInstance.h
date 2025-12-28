@@ -22,10 +22,10 @@ public:
 
 protected:
 	UPROPERTY()
-	TObjectPtr<AFPSCharacterBase> OwningCharacter;
+	AFPSCharacterBase* OwningCharacter;
 
 	UPROPERTY()
-	TObjectPtr<UCharacterMovementComponent> OwningMovementComponent;
+	UCharacterMovementComponent* OwningMovementComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
 	float GroundSpeed;  //  移动速度（用于移动的2D Blend Space）

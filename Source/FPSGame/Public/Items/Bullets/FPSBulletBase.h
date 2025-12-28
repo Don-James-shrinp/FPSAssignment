@@ -19,13 +19,13 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullets")
-	TObjectPtr<UStaticMeshComponent> BulletStaticMesh;
+	UStaticMeshComponent* BulletStaticMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullets")
-	TObjectPtr<UBoxComponent> BulletCollisionBox;
+	UBoxComponent* BulletCollisionBox;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Bullets")
-	TObjectPtr<UProjectileMovementComponent> BulletMovementComponent;
+	UProjectileMovementComponent* BulletMovementComponent;
 
 	UFUNCTION()
 	void OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

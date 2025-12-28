@@ -5,6 +5,7 @@
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/FPSGameplayAbility.h"
 
+#include "FPSDebugHelper.h"
 bool FFPSPlayerAbilitySet::IsValid() const
 {
 	return InputTag.IsValid() && AbilityToGrant;
@@ -21,6 +22,7 @@ void UDataAsset_PlayerStartupData::GiveToAbilitySystemComponent(UFPSAbilitySyste
 			continue;
 		}
 		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		Debug::Print(TEXT("Granted!"));
 		AbilitySpec.SourceObject = InASCToGive->GetAvatarActor();
 		AbilitySpec.Level = ApplyLevel;
 		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);  //  给Ability赋予InputTag，使其能够关联起来

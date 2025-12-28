@@ -18,7 +18,7 @@ struct FFPSInputActionConfig
 	FGameplayTag InputTag;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UInputAction> InputAction;
+	UInputAction* InputAction;
 
 	bool IsValid() const
 	{
@@ -35,12 +35,15 @@ class FPSGAME_API UDataAsset_InputConfig : public UDataAsset
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;  //  按键绑定
+	UInputMappingContext* DefaultMappingContext;  //  按键绑定
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FFPSInputActionConfig> NativeInputActions;
 
-	TObjectPtr<UInputAction> FindNativeInputActionByTag(const FGameplayTag& InInputTag) const;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FFPSInputActionConfig> AbilityInputActions;
+
+	UInputAction* FindNativeInputActionByTag(const FGameplayTag& InInputTag) const;
 
 
 };

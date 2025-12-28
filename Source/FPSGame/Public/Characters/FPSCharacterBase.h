@@ -26,10 +26,10 @@ protected:
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
-	TObjectPtr<UFPSAbilitySystemComponent> FPSAbilitySystemComponent;
+	UFPSAbilitySystemComponent* FPSAbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
-	TObjectPtr<UFPSAttributeSet> FPSAttributeSet;
+	UFPSAttributeSet* FPSAttributeSet;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
 	TSoftObjectPtr<UDataAsset_StartupDataBase> CharacterStartupData;

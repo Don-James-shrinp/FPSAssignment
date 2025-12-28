@@ -10,7 +10,7 @@ void UFPSAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInp
 		return;
 	}
 
-	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())  //  遍历所有可激活的Abilty，然后找到与传入的GameplayTag对应的对应的Ability
+	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())  //  遍历所有可激活的Abilty，然后找到与传入的Input Tag对应的对应的Ability
 	{
 		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag)) continue;
 

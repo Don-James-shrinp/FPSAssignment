@@ -18,7 +18,7 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
-	TObjectPtr<UStaticMeshComponent> WeaponStaticMesh;
+	UStaticMeshComponent* WeaponStaticMesh;
 
 
 };

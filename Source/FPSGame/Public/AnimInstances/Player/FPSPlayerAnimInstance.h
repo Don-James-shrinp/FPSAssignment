@@ -21,7 +21,7 @@ public:
 	virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
-	TObjectPtr<AFPSPlayerCharacter> OwningPlayerCharacter;
+	AFPSPlayerCharacter* OwningPlayerCharacter;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "AnimData|Locomotion")
 	bool bIsFalling;

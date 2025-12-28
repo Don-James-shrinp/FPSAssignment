@@ -3,7 +3,7 @@
 
 #include "DataAssets/Input/DataAsset_InputConfig.h"
 
-TObjectPtr<UInputAction> UDataAsset_InputConfig::FindNativeInputActionByTag(const FGameplayTag& InInputTag) const
+UInputAction* UDataAsset_InputConfig::FindNativeInputActionByTag(const FGameplayTag& InInputTag) const
 {
     for (const FFPSInputActionConfig& InputActionConfig : NativeInputActions)
     {
@@ -14,5 +14,5 @@ TObjectPtr<UInputAction> UDataAsset_InputConfig::FindNativeInputActionByTag(cons
             return InputActionConfig.InputAction;
         }
     }
-    return TObjectPtr<UInputAction>();
+    return nullptr;
 }

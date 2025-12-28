@@ -10,6 +10,7 @@
 #include "FPSGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DataAssets/StartupData/DataAsset_PlayerStartupData.h"
+#include "AbilitySystem/FPSAbilitySystemComponent.h"
 
 AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
@@ -96,11 +97,6 @@ void AFPSPlayerCharacter::PossessedBy(AController* NewController)
 	}
 }
 
-void AFPSPlayerCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void AFPSPlayerCharacter::Input_Move(const FInputActionValue& InputActionValue)
 {
 	FVector2D MovementVector = InputActionValue.Get<FVector2D>();  //  获取输入的Axis2D
@@ -145,4 +141,14 @@ void AFPSPlayerCharacter::Input_Jump(const FInputActionValue& InputActionValue)
 void AFPSPlayerCharacter::Input_StopJumping(const FInputActionValue& InputActionValue)
 {
 	StopJumping();
+}
+
+void AFPSPlayerCharacter::Ability_Input_Pressed(FGameplayTag InInputTag)
+{
+	FPSAbilitySystemComponent->OnAbilityInputPressed(InInputTag);
+}
+
+void AFPSPlayerCharacter::Ability_Input_Released(FGameplayTag InInputTag)
+{
+	FPSAbilitySystemComponent->OnAbilityInputReleased(InInputTag);
 }

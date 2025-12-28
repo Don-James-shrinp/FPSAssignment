@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Characters/FPSCharacterBase.h"
+#include "GameplayTagContainer.h"
 #include "FPSPlayerCharacter.generated.h"
 
 class UCameraComponent;
@@ -25,18 +26,17 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;  //  APawn提供的接口，用于进行自定义的输入绑定
 	virtual void PossessedBy(AController* NewController) override;
 
-	virtual void BeginPlay() override;
 private:
 #pragma region Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
  	
-	TObjectPtr<UCameraComponent> FirstPersonCamera;  //  第一人称相机组件
+	UCameraComponent* FirstPersonCamera;  //  第一人称相机组件
 
 #pragma endregion
 
 #pragma region Inputs
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UDataAsset_InputConfig> InputConfigDataAsset;
+	UDataAsset_InputConfig* InputConfigDataAsset;
 
 	void Input_Move(const FInputActionValue& InputActionValue);
 
@@ -45,6 +45,10 @@ private:
 	void Input_Jump(const FInputActionValue& InputActionValue);
 
 	void Input_StopJumping(const FInputActionValue& InputActionValue);
+
+	void Ability_Input_Pressed(FGameplayTag InInputTag);
+
+	void Ability_Input_Released(FGameplayTag InInputTag);
 #pragma endregion
 
 	
