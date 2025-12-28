@@ -8,7 +8,7 @@
 
 
 class UFPSAbilitySystemComponent;
-
+class UPawnCombatComponent;
 UENUM(BlueprintType)
 enum class EFPSAbilityActivationPolicy : uint8  //  Abilty的激活策略
 {
@@ -29,6 +29,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
 	UFPSAbilitySystemComponent* GetFPSAbilitySystemComponentFromActorInfo() const;  //  从ActorInfo中获取AbilitySystemComponent
 
-	UPROPERTY(EditDefaultsOnly, Category = "FPSAbility")
+	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
+	UPawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+
+	UPROPERTY(EditDefaultsOnly, Category = "FPS|Ability")
 	EFPSAbilityActivationPolicy AbilityActivationPolicy = EFPSAbilityActivationPolicy::OTriggered;
 };

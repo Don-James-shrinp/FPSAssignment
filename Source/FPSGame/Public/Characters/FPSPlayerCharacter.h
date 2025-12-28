@@ -10,6 +10,7 @@
 class UCameraComponent;
 class UDataAsset_InputConfig;
 struct FInputActionValue;
+class UPlayerCombatComponent;
 /**
  * 
  */
@@ -20,7 +21,8 @@ class FPSGAME_API AFPSPlayerCharacter : public AFPSCharacterBase
 
 public:
 	AFPSPlayerCharacter();
-
+	
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 protected:
 	/** Allows a Pawn to set up custom input bindings. Called upon possession by a PlayerController, using the InputComponent created by CreatePlayerInputComponent(). */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;  //  APawn提供的接口，用于进行自定义的输入绑定
@@ -29,8 +31,10 @@ protected:
 private:
 #pragma region Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
- 	
 	UCameraComponent* FirstPersonCamera;  //  第一人称相机组件
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPlayerCombatComponent* PlayerCombatComponet;
 
 #pragma endregion
 
@@ -51,5 +55,7 @@ private:
 	void Ability_Input_Released(FGameplayTag InInputTag);
 #pragma endregion
 
+public:
+	FORCEINLINE UPlayerCombatComponent* GetPlayerCombatComponent() const { return PlayerCombatComponet; }
 	
 };

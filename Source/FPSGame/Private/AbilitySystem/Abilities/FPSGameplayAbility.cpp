@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/Abilities/FPSGameplayAbility.h"
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
+#include "Components/Combat/PawnCombatComponent.h"
 
 #include "FPSDebugHelper.h"
 
@@ -34,4 +35,9 @@ void UFPSGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle, co
 UFPSAbilitySystemComponent* UFPSGameplayAbility::GetFPSAbilitySystemComponentFromActorInfo() const
 {
 	return Cast<UFPSAbilitySystemComponent>(CurrentActorInfo->AbilitySystemComponent);
+}
+
+UPawnCombatComponent* UFPSGameplayAbility::GetPawnCombatComponentFromActorInfo() const
+{
+	return GetAvatarActorFromActorInfo()->FindComponentByClass<UPawnCombatComponent>();
 }

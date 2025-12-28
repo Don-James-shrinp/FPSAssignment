@@ -24,6 +24,11 @@ UAbilitySystemComponent* AFPSCharacterBase::GetAbilitySystemComponent() const
 	return GetAbilitySystemComponent();
 }
 
+UPawnCombatComponent* AFPSCharacterBase::GetPawnCombatComponent() const
+{
+	return nullptr;
+}
+
 void AFPSCharacterBase::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

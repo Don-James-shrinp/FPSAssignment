@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DataAssets/StartupData/DataAsset_PlayerStartupData.h"
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
+#include "Components/Combat/PlayerCombatComponent.h"
 
 AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
@@ -32,6 +33,11 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
+}
+
+UPawnCombatComponent* AFPSPlayerCharacter::GetPawnCombatComponent() const
+{
+	return PlayerCombatComponet;
 }
 
 void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -78,6 +84,13 @@ void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 		ETriggerEvent::Completed,
 		this,
 		&ThisClass::Input_StopJumping
+	);
+
+	FPSInputComponent->BindAbilityInputAction(
+		InputConfigDataAsset,
+		this,
+		&ThisClass::Ability_Input_Pressed,
+		&ThisClass::Ability_Input_Released
 	);
 
 }

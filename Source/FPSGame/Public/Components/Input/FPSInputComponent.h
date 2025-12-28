@@ -42,7 +42,7 @@ void UFPSInputComponent::BindNativeInputAction(
 	UserObject* ContextObject,
 	CallbackFunc Func)
 {
-	checkf(InInputConfig, TEXT("没有给定Input Config Data"));
+	checkf(InInputConfig, TEXT("Input Config Data is null"));
 
 	if (UInputAction* FoundAction = InInputConfig->FindNativeInputActionByTag(InInputTag))
 	{
@@ -57,13 +57,15 @@ inline void UFPSInputComponent::BindAbilityInputAction(
 	CallbackFunc InputPressedFunc, 
 	CallbackFunc InputReleasedFunc)
 {
+	checkf(InInputConfig, TEXT("Input Config Data is null"));
+
 	for (const FFPSInputActionConfig& InputActionConfig : InInputConfig->AbilityInputActions)
 	{
 		if (!InputActionConfig.IsValid())
 		{
 			continue;
 		}
-		BindAction(InputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc);
-		BindAction(InputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputReleasedFunc);
+		BindAction(InputActionConfig.InputAction, ETriggerEvent::Started, ContextObject, InputPressedFunc, InputActionConfig.InputTag);
+		BindAction(InputActionConfig.InputAction, ETriggerEvent::Completed, ContextObject, InputReleasedFunc, InputActionConfig.InputTag);
 	}
 }

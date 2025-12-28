@@ -6,10 +6,7 @@
 #include "AbilitySystem/Abilities/FPSGameplayAbility.h"
 
 #include "FPSDebugHelper.h"
-bool FFPSPlayerAbilitySet::IsValid() const
-{
-	return InputTag.IsValid() && AbilityToGrant;
-}
+
 
 void UDataAsset_PlayerStartupData::GiveToAbilitySystemComponent(UFPSAbilitySystemComponent* InASCToGive, int32 ApplyLevel)
 {
