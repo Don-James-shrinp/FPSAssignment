@@ -3,6 +3,8 @@
 
 #include "Components/Combat/PawnCombatComponent.h"
 #include "Items/Weapons/FPSWeaponBase.h"
+
+#include "FPSDebugHelper.h"
 void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AFPSWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
 	checkf(!CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister), TEXT("A Tag named %s has already been registered"), *InWeaponTagToRegister.ToString());
@@ -15,7 +17,6 @@ void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegis
 	{
 		CurrentEquippedWeaponTag = InWeaponTagToRegister;
 	}
-
 }
 
 AFPSWeaponBase* UPawnCombatComponent::GetCharacterWeaponByTag(FGameplayTag InWeaponTag) const

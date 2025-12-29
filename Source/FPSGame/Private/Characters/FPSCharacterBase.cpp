@@ -21,7 +21,7 @@ AFPSCharacterBase::AFPSCharacterBase()
 
 UAbilitySystemComponent* AFPSCharacterBase::GetAbilitySystemComponent() const
 {
-	return GetAbilitySystemComponent();
+	return FPSAbilitySystemComponent;
 }
 
 UPawnCombatComponent* AFPSCharacterBase::GetPawnCombatComponent() const

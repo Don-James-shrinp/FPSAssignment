@@ -33,6 +33,8 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = 400.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
+	PlayerCombatComponet = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponet"));
+
 }
 
 UPawnCombatComponent* AFPSPlayerCharacter::GetPawnCombatComponent() const
