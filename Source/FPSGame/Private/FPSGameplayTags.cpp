@@ -13,8 +13,8 @@ namespace FPSGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Unequip_Rifle, "InputTag.Unequip.Rifle");
 
 	/** Player Tags **/
-	UE_DEFINE_GAMEPLAY_TAG(Player_Equip_Rifle, "Player.Equip.Rifle");
-	UE_DEFINE_GAMEPLAY_TAG(Player_Unequip_Rifle, "Player.Unequip.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Rifle, "Player.Ability.Equip.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Unequip_Rifle, "Player.Ability.Unequip.Rifle");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Rifle, "Player.Weapon.Rifle");
 

@@ -2,7 +2,9 @@
 
 
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
+#include "AbilitySystem/Abilities/FPSPlayerGameplayAbility.h"
 
+#include "FPSDebugHelper.h"
 void UFPSAbilitySystemComponent::OnAbilityInputPressed(const FGameplayTag& InInputTag)
 {
 	if (!InInputTag.IsValid())  //  传入的GameplayTag无效
@@ -32,4 +34,35 @@ void UFPSAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InIn
 			CancelAbilityHandle(AbilitySpec.Handle);
 		}
 	}
+}
+
+void UFPSAbilitySystemComponent::GrantWeaponAbilities(const TArray<FFPSPlayerAbilitySet>& InWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+{
+	for (const FFPSPlayerAbilitySet& AbilitySet : InWeaponAbilities)
+	{
+		if (!AbilitySet.IsValid())
+		{
+			continue;
+		}
+		FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+		AbilitySpec.SourceObject = GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		AbilitySpec.GetDynamicSpecSourceTags().AddTag(AbilitySet.InputTag);
+		OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+	}
+}
+
+void UFPSAbilitySystemComponent::RemoveGrantedAbilities(UPARAM(ref)TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+	for (const FGameplayAbilitySpecHandle& SpecHandle : InSpecHandlesToRemove)
+	{
+		if (!SpecHandle.IsValid())
+		{
+			continue;
+		}
+		Debug::Print(TEXT("Removed!"));
+		ClearAbility(SpecHandle);
+	}
+
+	InSpecHandlesToRemove.Empty();
 }
