@@ -6,13 +6,14 @@
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
 #include "Interfaces/PawnCombatInterface.h"
+#include "Interfaces/PawnUIInterface.h"
 #include "FPSCharacterBase.generated.h"
 
 class UFPSAbilitySystemComponent;
 class UDataAsset_StartupDataBase;
 class UFPSAttributeSet;
 UCLASS()
-class FPSGAME_API AFPSCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface
+class FPSGAME_API AFPSCharacterBase : public ACharacter, public IAbilitySystemInterface, public IPawnCombatInterface, public IPawnUIInterface
 {
 	GENERATED_BODY()
 

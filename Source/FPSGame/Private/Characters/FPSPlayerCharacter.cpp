@@ -12,6 +12,7 @@
 #include "DataAssets/StartupData/DataAsset_PlayerStartupData.h"
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
 #include "Components/Combat/PlayerCombatComponent.h"
+#include "Components/UI/PlayerUIComponent.h"
 
 AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
@@ -35,11 +36,25 @@ AFPSPlayerCharacter::AFPSPlayerCharacter()
 
 	PlayerCombatComponet = CreateDefaultSubobject<UPlayerCombatComponent>(TEXT("PlayerCombatComponet"));
 
+	PlayerUIComponent = CreateDefaultSubobject<UPlayerUIComponent>(TEXT("PlayerUIComponent"));
+
+
+
 }
 
 UPawnCombatComponent* AFPSPlayerCharacter::GetPawnCombatComponent() const
 {
 	return PlayerCombatComponet;
+}
+
+UPawnUIComponent* AFPSPlayerCharacter::GetPawnUIComponent() const
+{
+	return PlayerUIComponent;
+}
+
+UPlayerUIComponent* AFPSPlayerCharacter::GetPlayerUIComponent() const
+{
+	return PlayerUIComponent;
 }
 
 void AFPSPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
