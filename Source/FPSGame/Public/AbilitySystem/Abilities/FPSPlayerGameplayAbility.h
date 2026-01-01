@@ -8,6 +8,7 @@
 
 class AFPSPlayerCharacter;
 class AFPSPlayerController;
+class UPlayerUIComponent;
 /**
  * 
  */
@@ -24,6 +25,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "FPS|Ability")
 	UPlayerCombatComponent* GetPlayerCombatComponentFromActorInfo();
+
+	UFUNCTION(BlueprintPure, Category = "FPS|Ability")
+	UPlayerUIComponent* GetPlayerUIComponentFromActorInfo();
 
 private:
 	TWeakObjectPtr<AFPSPlayerCharacter> CachedPlayerCharacter;

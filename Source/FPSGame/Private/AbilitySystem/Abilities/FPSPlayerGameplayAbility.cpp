@@ -27,3 +27,8 @@ UPlayerCombatComponent* UFPSPlayerGameplayAbility::GetPlayerCombatComponentFromA
 {
     return GetPlayerCharacterFromActorInfo()->GetPlayerCombatComponent();
 }
+
+UPlayerUIComponent* UFPSPlayerGameplayAbility::GetPlayerUIComponentFromActorInfo()
+{
+    return GetPlayerCharacterFromActorInfo()->GetPlayerUIComponent();
+}
