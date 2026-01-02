@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
+#include "GameplayEffect.h"
 #include "DataAsset_StartupDataBase.generated.h"
 
 class UFPSAbilitySystemComponent;
@@ -23,6 +24,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "StartupData")
 	TArray<TSubclassOf<UFPSGameplayAbility>> ReactiveAbilities;
+
+	UPROPERTY(EditDefaultsOnly, Category = "StartupData")
+	TArray<TSubclassOf<UGameplayEffect>> StartupGameplayEffects;
 
 	void GrantAbilities(const TArray<TSubclassOf<UFPSGameplayAbility>>& InAbilitiesToGive, UFPSAbilitySystemComponent* InASCToGive, int32 ApplyLevel);
 };

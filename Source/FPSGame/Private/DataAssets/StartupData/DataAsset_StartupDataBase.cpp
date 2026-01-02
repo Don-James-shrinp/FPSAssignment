@@ -14,6 +14,23 @@ void UDataAsset_StartupDataBase::GiveToAbilitySystemComponent(UFPSAbilitySystemC
 	//  将能力通过ASC给予角色
 	GrantAbilities(ActivateOnGivenAbilities, InASCToGive, ApplyLevel);
 	GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
+	
+	if (!StartupGameplayEffects.IsEmpty())
+	{
+		for (const TSubclassOf<UGameplayEffect>& EffectClass : StartupGameplayEffects)  //  将StartupEffect Apply到自身
+		{
+			if (!EffectClass)
+			{
+				continue;
+			}
+			UGameplayEffect* EffectClassDefaultObject = EffectClass->GetDefaultObject<UGameplayEffect>();
+			InASCToGive->ApplyGameplayEffectToSelf(
+				EffectClassDefaultObject,
+				ApplyLevel,
+				InASCToGive->MakeEffectContext()
+			);
+		}
+	}
 }
 
 void UDataAsset_StartupDataBase::GrantAbilities(const TArray<TSubclassOf<UFPSGameplayAbility>>& InAbilitiesToGive, UFPSAbilitySystemComponent* InASCToGive, int32 ApplyLevel)

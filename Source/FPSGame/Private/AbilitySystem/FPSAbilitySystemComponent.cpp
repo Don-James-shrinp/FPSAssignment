@@ -60,7 +60,6 @@ void UFPSAbilitySystemComponent::RemoveGrantedAbilities(UPARAM(ref)TArray<FGamep
 		{
 			continue;
 		}
-		Debug::Print(TEXT("Removed!"));
 		ClearAbility(SpecHandle);
 	}
 

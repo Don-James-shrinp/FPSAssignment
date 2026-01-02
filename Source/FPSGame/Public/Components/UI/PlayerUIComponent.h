@@ -6,6 +6,8 @@
 #include "Components/UI/PawnUIComponent.h"
 #include "PlayerUIComponent.generated.h"
 
+class UFPSWidgetBase;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoNumberChangedDelegate, int32, NewAmmoNumber);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon, FString, TextContent);
@@ -22,4 +24,12 @@ public:
 
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
+
+	UFUNCTION(BlueprintPure, Category = "FPS|UI")
+	UFPSWidgetBase* GetDrawedAimWidget() const;
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|UI")
+	void SetDrawedAimWidget(UFPSWidgetBase* InDrawedAimWidget);
+private:
+	UFPSWidgetBase* CachedDrawedAimWidget;
 };
