@@ -20,11 +20,24 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
 	FFPSPlayerWeaponData PlayerWeaponData;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
 	void SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles);
 
 	UFUNCTION(BlueprintPure)
 	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;  // GrantedAbilitySpecHandles Getter
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons")
+	int32 MaxAmmoNumber = 60;  //  最大弹药数量
+
+	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons")
+	
+	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
+	FORCEINLINE int32 GetCurrentAmmoNumber() const { return CurrentAmmoNumber; }
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
+	void SetCurrentAmmoNumber(const int32 NewAmmoNumber);
 private:
 	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
+
+	int32 CurrentAmmoNumber;  //  现在的子弹数量
 };

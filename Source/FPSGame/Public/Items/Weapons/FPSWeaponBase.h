@@ -7,6 +7,7 @@
 #include "FPSWeaponBase.generated.h"
 
 class UStaticMeshComponent;
+class UBulletPoolComponent;
 
 UCLASS()
 class FPSGAME_API AFPSWeaponBase : public AActor
@@ -20,5 +21,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
 	UStaticMeshComponent* WeaponStaticMesh;
 
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
+	UBulletPoolComponent* BulletPoolComponent;
 };

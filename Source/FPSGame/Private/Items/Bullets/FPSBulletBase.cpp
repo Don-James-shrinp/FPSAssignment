@@ -5,6 +5,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "FPSGameplayTags.h"
 
 AFPSBulletBase::AFPSBulletBase()
 {
@@ -18,9 +20,7 @@ AFPSBulletBase::AFPSBulletBase()
 
 	BulletStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BulletStaticMesh"));
 	BulletStaticMesh->SetupAttachment(GetRootComponent());
-	//  绑定碰撞盒的回调函数
-	BulletCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnCollisionBoxBeginOverlap);
-	BulletCollisionBox->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnCollisionBoxEndOverlap);
+	
 
 	BulletMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("BulletMovementComponent"));
 	BulletMovementComponent->InitialSpeed = 700.f;
@@ -29,12 +29,41 @@ AFPSBulletBase::AFPSBulletBase()
 	BulletMovementComponent->ProjectileGravityScale = 0.f;
 }
 
+void AFPSBulletBase::BeginPlay()
+{
+	Super::BeginPlay();
+	//  绑定碰撞盒的回调函数
+	BulletCollisionBox->OnComponentBeginOverlap.AddUniqueDynamic(this, &ThisClass::OnCollisionBoxBeginOverlap);
+	BulletCollisionBox->OnComponentEndOverlap.AddUniqueDynamic(this, &ThisClass::OnCollisionBoxEndOverlap);
+}
+
 void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	FGameplayEventData Data;
+	Data.Instigator = CachedInstigator.Get();
+	Data.Target = OtherActor;
 	//  子弹发生碰撞
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+		CachedInstigator.Get(),
+		FPSGameplayTags::Player_Event_Bullet_Hit,
+		Data
+	);
 }
 
 void AFPSBulletBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	//  子弹结束碰撞
+}
+
+void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector StartLocation, FVector Direction)
+{
+	bIsActive = InIsActive;
+	CachedInstigator = InInstigator;
+
+
+}
+
+void AFPSBulletBase::Deactivate()
+{
+
 }
