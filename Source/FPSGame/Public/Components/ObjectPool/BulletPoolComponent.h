@@ -17,19 +17,21 @@ public:
 	// Sets default values for this component's properties
 	UBulletPoolComponent();
 
+	UFUNCTION(BlueprintCallable, Category = "Bullet Pool")
+	AFPSBulletBase* GetBulletFromPool();  //  从对象池中获取空闲的子弹对象
+
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "BulletPool Config")
 	TSubclassOf<AFPSBulletBase> BulletClass;  //  子弹类
 
 	UPROPERTY(EditDefaultsOnly, Category = "BulletPool Config")
 	int32 BulletPoolSize = 30;  //  对象池的初始容量
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+	
+	UPROPERTY()
+	TArray<AFPSBulletBase*> BulletPool;
 };

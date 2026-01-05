@@ -18,10 +18,16 @@ public:
 	AFPSBulletBase();
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Bullets")
-	void SetActive(bool InIsActive, AActor* InInstigator, FVector StartLocation, FVector Direction);
+	void SetActive(bool InIsActive, AActor* InInstigator = nullptr, FVector StartLocation = FVector::ZeroVector, FVector Direction = FVector::ZeroVector);
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Bullets")
 	FORCEINLINE bool IsActive() const { return bIsActive; }
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|Bullets")
+	void StartLifeTimer(float Duration);  //  设置生命周期定时器，当定时结束后就会回收该对象
+
+	UPROPERTY(EditDefaultsOnly, Category = "Bullets")
+	float BulletLifeTime = 3.f;  //  子弹的生命周期
 
 protected:
 	void BeginPlay() override;
@@ -49,5 +55,5 @@ private:
 	FTimerHandle LifeTimerHandle;
 	TWeakObjectPtr<AActor> CachedInstigator;  //  将子弹发射出去动作的执行者(Shooter)
 
-	void Deactivate();  //  定时将子弹对象回收到对象池中
+	void Deactivate();  //  对象的回收逻辑，定时将子弹对象回收到对象池中
 };

@@ -13,7 +13,6 @@ AFPSBulletBase::AFPSBulletBase()
 	PrimaryActorTick.bCanEverTick = false;
 
 	BulletCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("BulletCollisionBox"));
-	BulletCollisionBox->SetupAttachment(GetRootComponent());
 	BulletCollisionBox->SetBoxExtent(FVector(20.f));
 	BulletCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	SetRootComponent(BulletCollisionBox);
@@ -27,6 +26,14 @@ AFPSBulletBase::AFPSBulletBase()
 	BulletMovementComponent->MaxSpeed = 900.f;
 	BulletMovementComponent->Velocity = FVector(1.f, 0.f, 0.f);
 	BulletMovementComponent->ProjectileGravityScale = 0.f;
+	BulletMovementComponent->bAutoActivate = false;
+
+	bIsActive = false;
+}
+
+void AFPSBulletBase::StartLifeTimer(float Duration)
+{
+	GetWorldTimerManager().SetTimer(LifeTimerHandle, this, &ThisClass::Deactivate, Duration, false);
 }
 
 void AFPSBulletBase::BeginPlay()
@@ -43,11 +50,14 @@ void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 	Data.Instigator = CachedInstigator.Get();
 	Data.Target = OtherActor;
 	//  子弹发生碰撞
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(  //  将命中事件发送给Shooter，用于后续的处理流程
 		CachedInstigator.Get(),
 		FPSGameplayTags::Player_Event_Bullet_Hit,
 		Data
 	);
+	//  将当前命中的子弹回收到对象池
+	Deactivate();
+
 }
 
 void AFPSBulletBase::OnCollisionBoxEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -60,10 +70,33 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 	bIsActive = InIsActive;
 	CachedInstigator = InInstigator;
 
+	SetActorHiddenInGame(!bIsActive);  //  设置对象在游戏中的可见性
+
+	BulletCollisionBox->SetCollisionEnabled(bIsActive ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
+
+
+	if (bIsActive)
+	{
+		SetActorLocationAndRotation(StartLocation, Direction.Rotation(), false, nullptr, ETeleportType::TeleportPhysics);
+
+		BulletMovementComponent->SetUpdatedComponent(GetRootComponent());
+		BulletMovementComponent->Velocity = Direction * BulletMovementComponent->InitialSpeed;
+		BulletMovementComponent->Activate(true);
+
+		StartLifeTimer(BulletLifeTime);
+	}
+	else
+	{
+		BulletMovementComponent->StopMovementImmediately();
+		BulletMovementComponent->Deactivate();
+
+		GetWorldTimerManager().ClearTimer(LifeTimerHandle);
+
+	}
 
 }
 
 void AFPSBulletBase::Deactivate()
 {
-
+	SetActive(false);
 }

@@ -17,6 +17,9 @@ class FPSGAME_API AFPSWeaponBase : public AActor
 public:	
 	AFPSWeaponBase();
 
+	UFUNCTION(BlueprintPure, Category = "Bullet Pool")
+	FORCEINLINE UBulletPoolComponent* GetBulletPoolComponent() const { return BulletPoolComponent; }
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapons")
 	UStaticMeshComponent* WeaponStaticMesh;
