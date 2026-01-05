@@ -18,7 +18,10 @@ public:
 	UBulletPoolComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Bullet Pool")
-	AFPSBulletBase* GetBulletFromPool();  //  从对象池中获取空闲的子弹对象
+	AFPSBulletBase* GetBulletFromPool(int32& OutIndex);  //  从对象池中获取空闲的子弹对象
+
+	UFUNCTION(BlueprintCallable, Category = "Bullet Pool")
+	AFPSBulletBase* GetBulletByIndex(int32 OutIndex);  //  获取指定索引的Bullet Object
 
 protected:
 	// Called when the game starts

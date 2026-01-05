@@ -12,14 +12,17 @@ UBulletPoolComponent::UBulletPoolComponent()
 
 }
 
-AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool()
+AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool(int32& OutIndex)
 {
+	int32 index = 0;
 	for (AFPSBulletBase* Bullet : BulletPool)
 	{
 		if (Bullet && !Bullet->IsActive())
 		{
+			OutIndex = index;
 			return Bullet;
 		}
+		index++;
 	}
 
 	//  这里处理没有空闲的子弹对象的情况，需要对对象池进行动态扩容
@@ -29,11 +32,16 @@ AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool()
 		if (NewBullet)
 		{
 			NewBullet->SetActive(false);
-			BulletPool.AddUnique(NewBullet);
+			OutIndex = BulletPool.AddUnique(NewBullet);
 			return NewBullet;
 		}
 	}
 	return nullptr;
+}
+
+AFPSBulletBase* UBulletPoolComponent::GetBulletByIndex(int32 OutIndex)
+{
+	return BulletPool[OutIndex];
 }
 
 

@@ -27,7 +27,7 @@ public:
 	void StartLifeTimer(float Duration);  //  设置生命周期定时器，当定时结束后就会回收该对象
 
 	UPROPERTY(EditDefaultsOnly, Category = "Bullets")
-	float BulletLifeTime = 3.f;  //  子弹的生命周期
+	float BulletLifeTime = 10.f;  //  子弹的生命周期
 
 protected:
 	void BeginPlay() override;
@@ -51,6 +51,7 @@ protected:
 	
 
 private:
+	UPROPERTY(VisibleAnywhere)
 	bool bIsActive;  //  当前子弹是否处于Active状态，如果是false表示当前子弹对象处于空闲状态，可以被使用
 	FTimerHandle LifeTimerHandle;
 	TWeakObjectPtr<AActor> CachedInstigator;  //  将子弹发射出去动作的执行者(Shooter)

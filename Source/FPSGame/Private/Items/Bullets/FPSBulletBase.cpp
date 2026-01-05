@@ -8,6 +8,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "FPSGameplayTags.h"
 
+#include "FPSDebugHelper.h"
 AFPSBulletBase::AFPSBulletBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -56,7 +57,7 @@ void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 		Data
 	);
 	//  将当前命中的子弹回收到对象池
-	Deactivate();
+	Deactivate();  //  BUG出在这里，当子弹从对象池中被取出时，会提前发生碰撞导致子弹直接被回收
 
 }
 
@@ -72,11 +73,12 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 
 	SetActorHiddenInGame(!bIsActive);  //  设置对象在游戏中的可见性
 
-	BulletCollisionBox->SetCollisionEnabled(bIsActive ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
 
-
+	//Debug::Print(FString::Printf(TEXT("Active Param: ")) + (InIsActive ? TEXT("True") : TEXT("False")));
+	
 	if (bIsActive)
 	{
+		Debug::Print(TEXT("Activate Bullet Object!"));
 		SetActorLocationAndRotation(StartLocation, Direction.Rotation(), false, nullptr, ETeleportType::TeleportPhysics);
 
 		BulletMovementComponent->SetUpdatedComponent(GetRootComponent());
@@ -93,6 +95,7 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 		GetWorldTimerManager().ClearTimer(LifeTimerHandle);
 
 	}
+	//BulletCollisionBox->SetCollisionEnabled(bIsActive ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
 
 }
 
