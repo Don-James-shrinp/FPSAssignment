@@ -47,17 +47,22 @@ void AFPSBulletBase::BeginPlay()
 
 void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	FGameplayEventData Data;
-	Data.Instigator = CachedInstigator.Get();
-	Data.Target = OtherActor;
-	//  子弹发生碰撞
-	UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(  //  将命中事件发送给Shooter，用于后续的处理流程
-		CachedInstigator.Get(),
-		FPSGameplayTags::Player_Event_Bullet_Hit,
-		Data
-	);
-	//  将当前命中的子弹回收到对象池
-	Deactivate();  //  BUG出在这里，当子弹从对象池中被取出时，会提前发生碰撞导致子弹直接被回收
+	if (OtherActor != nullptr && OtherActor != this && OtherActor != GetOwner())
+	{
+		FGameplayEventData Data;
+		Data.Instigator = CachedInstigator.Get();
+		Data.Target = OtherActor;
+		//  子弹发生碰撞
+		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(  //  将命中事件发送给Shooter，用于后续的处理流程
+			CachedInstigator.Get(),
+			FPSGameplayTags::Player_Event_Bullet_Hit,
+			Data
+		);
+		Debug::Print(FString::Printf(TEXT("My Name: %s"), *GetActorNameOrLabel()));
+		Debug::Print(FString::Printf(TEXT("Collisioned Object Name: %s"), *OtherActor->GetActorNameOrLabel()));
+		//  将当前命中的子弹回收到对象池
+		Deactivate();  //  BUG出在这里，当子弹从对象池中被取出时，会提前发生碰撞导致子弹直接被回收（原因在于子弹会和自己发生碰撞）
+	}
 
 }
 
@@ -78,7 +83,7 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 	
 	if (bIsActive)
 	{
-		Debug::Print(TEXT("Activate Bullet Object!"));
+		//Debug::Print(TEXT("Activate Bullet Object!"));
 		SetActorLocationAndRotation(StartLocation, Direction.Rotation(), false, nullptr, ETeleportType::TeleportPhysics);
 
 		BulletMovementComponent->SetUpdatedComponent(GetRootComponent());
@@ -95,7 +100,7 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 		GetWorldTimerManager().ClearTimer(LifeTimerHandle);
 
 	}
-	//BulletCollisionBox->SetCollisionEnabled(bIsActive ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
+	BulletCollisionBox->SetCollisionEnabled(bIsActive ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
 
 }
 

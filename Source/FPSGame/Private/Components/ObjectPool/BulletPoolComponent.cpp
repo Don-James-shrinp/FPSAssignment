@@ -15,7 +15,7 @@ UBulletPoolComponent::UBulletPoolComponent()
 AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool(int32& OutIndex)
 {
 	int32 index = 0;
-	for (AFPSBulletBase* Bullet : BulletPool)
+	for (AFPSBulletBase* Bullet : BulletPool)  //  现在的复杂度为O(n)，这里可以优化，设计一个类似于大根堆的数据结构，非激活状态的值为1，激活状态为0，每次取元素只需要取堆顶元素
 	{
 		if (Bullet && !Bullet->IsActive())
 		{
@@ -55,7 +55,7 @@ void UBulletPoolComponent::BeginPlay()
 	{
 		for (int32 i = 0; i < BulletPoolSize; i++)
 		{
-			FVector SpawnLocation = FVector(0.f, 0.f, -1000.f);
+			FVector SpawnLocation = FVector(0.f, 0.f, 0.f);
 			FRotator SpawnRotation = FRotator::ZeroRotator;
 
 			FActorSpawnParameters SpawnParams;
