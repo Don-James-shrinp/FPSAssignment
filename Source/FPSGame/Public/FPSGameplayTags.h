@@ -31,4 +31,9 @@ namespace FPSGameplayTags
 	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Event_Bullet_Hit);
 
 	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Status_Aim);  //  Ãé×¼×´Ì¬
+
+	/** Shared Tags **/
+	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+
+	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
 }

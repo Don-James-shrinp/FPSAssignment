@@ -27,4 +27,9 @@ namespace FPSGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Bullet_Hit, "Player.Event.Bullet.Hit");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Aim, "Player.Status.Aim");
+
+	/** Shared Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact, "Shared.Event.HitReact");
 }
