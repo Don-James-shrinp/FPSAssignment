@@ -24,6 +24,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;  //  IAbilitySystemInterface定义的接口，用于获取ASC
 
 	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
+
+	virtual UPawnUIComponent* GetPawnUIComponent() const override;
 protected:
 	virtual void PossessedBy(AController* NewController) override;  //  APawn的接口，当一个APawn被Controller Possessed时调用
 

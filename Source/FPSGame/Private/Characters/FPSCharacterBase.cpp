@@ -29,6 +29,11 @@ UPawnCombatComponent* AFPSCharacterBase::GetPawnCombatComponent() const
 	return nullptr;
 }
 
+UPawnUIComponent* AFPSCharacterBase::GetPawnUIComponent() const
+{
+	return nullptr;
+}
+
 void AFPSCharacterBase::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);

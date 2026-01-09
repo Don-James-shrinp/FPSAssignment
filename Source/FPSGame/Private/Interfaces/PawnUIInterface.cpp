@@ -15,4 +15,9 @@ UPlayerUIComponent* IPawnUIInterface::GetPlayerUIComponent() const
 	return nullptr;
 }
 
+UEnemyUIComponent* IPawnUIInterface::GetEnemyUIComponent() const
+{
+	return nullptr;
+}
+
 
