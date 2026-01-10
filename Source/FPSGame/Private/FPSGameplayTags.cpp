@@ -12,6 +12,7 @@ namespace FPSGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Fire, "InputTag.Fire");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Equip_Rifle, "InputTag.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Unequip_Rifle, "InputTag.Unequip.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(InputTag_Reload_Rifle, "InputTag.Reload.Rifle");
 
 	/** Player Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Equip_Rifle, "Player.Ability.Equip.Rifle");
@@ -19,6 +20,7 @@ namespace FPSGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_DryFire_Rifle, "Player.Ability.DryFire.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_AimFire_Rifle, "Player.Ability.AimFire.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Aim_Rifle, "Player.Ability.Aim.Rifle");
+	UE_DEFINE_GAMEPLAY_TAG(Player_Ability_Reload_Rifle, "Player.Ability.Reload.Rifle");
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Weapon_Rifle, "Player.Weapon.Rifle");
 

@@ -15,7 +15,8 @@ UCLASS()
 class FPSGAME_API AFPSPlayerWeapon : public AFPSWeaponBase
 {
 	GENERATED_BODY()
-	
+protected:
+	void BeginPlay() override;
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WeaponData")
 	FFPSPlayerWeaponData PlayerWeaponData;
@@ -39,5 +40,6 @@ public:
 private:
 	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 
+	UPROPERTY()
 	int32 CurrentAmmoNumber;  //  现在的子弹数量
 };

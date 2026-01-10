@@ -4,6 +4,12 @@
 #include "Items/Weapons/FPSPlayerWeapon.h"
 #include "AbilitySystem/Abilities/FPSGameplayAbility.h"
 
+void AFPSPlayerWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentAmmoNumber = MaxAmmoNumber;
+}
+
 void AFPSPlayerWeapon::SetGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles)
 {
 	GrantedAbilitySpecHandles = InSpecHandles;

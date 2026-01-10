@@ -8,9 +8,9 @@
 
 class UFPSWidgetBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAmmoNumberChangedDelegate, int32, NewAmmoNumber);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAmmoNumberChangedDelegate, int32, NewAmmoNumber, int32, MaxAmmoNumber);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon, FString, TextContent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
 /**
  * 
  */
