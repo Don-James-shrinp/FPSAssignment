@@ -29,8 +29,6 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons")
 	int32 MaxAmmoNumber = 60;  //  最大弹药数量
-
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons")
 	
 	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
 	FORCEINLINE int32 GetCurrentAmmoNumber() const { return CurrentAmmoNumber; }

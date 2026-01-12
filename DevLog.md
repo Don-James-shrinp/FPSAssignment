@@ -129,7 +129,7 @@ void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 貌似是showdebug abilitysystem仅会显示客户端的属性，最好使用`"`按键进行AbilitySystem的Debug
 
-## UnrealEditor中设置的初值没法修改成员变量
+### UnrealEditor中设置的初值没法修改成员变量
 
 在Weapon类中，我设置了MaxAmmo，并将其UPROPERTY设置为EditDefaultsOnly，即可以在Unreal Editor中修改其默认值，此外我还定义了CurrentAmmo私有成员，用于记录当前的子弹数量
 
@@ -142,3 +142,32 @@ void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 3. BeginPlay/OnConstruction：游戏开始
 
 所以，在构造函数中赋值时机过早，应该在BeginPlay中进行赋值
+
+
+
+### Ability之间的冲突问题
+
+虽然在Ability的Block中配置了需要Block的Ability，但是在此Ability激活时去试图激活Blocked Ability，虽然Blocked Ability不会激活，但是却会使得当前的Abiilty提前中止(提前进入End Ability)
+
+此外，如果不设置Block Ability，重复上述步骤，则会直接激活另一个Ability
+
+原因是由于在给Ability绑定输入事件时，对于Release事件的处理，我在Release时直接通过如下的方式将Ability Cancel掉了，导致Ability会提前结束
+
+```c++
+void UFPSAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InInputTag)
+{
+	if (!InInputTag.IsValid())
+	{
+		return;
+	}
+    for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+    {
+        if (AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag) 
+            && AbilitySpec.IsActive())
+        {
+            CancelAbilityHandle(AbilitySpec.Handle);
+        }
+    }
+}
+```
+

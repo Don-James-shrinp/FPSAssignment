@@ -26,14 +26,6 @@ void UFPSAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InIn
 	{
 		return;
 	}
-
-	for (const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
-	{
-		if (!AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InInputTag) && AbilitySpec.IsActive())
-		{
-			CancelAbilityHandle(AbilitySpec.Handle);
-		}
-	}
 }
 
 void UFPSAbilitySystemComponent::GrantWeaponAbilities(const TArray<FFPSPlayerAbilitySet>& InWeaponAbilities, int32 ApplyLevel, TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)

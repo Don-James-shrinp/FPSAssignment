@@ -12,14 +12,13 @@ UBulletPoolComponent::UBulletPoolComponent()
 
 }
 
-AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool(int32& OutIndex)
+AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool()
 {
 	int32 index = 0;
 	for (AFPSBulletBase* Bullet : BulletPool)  //  现在的复杂度为O(n)，这里可以优化，设计一个类似于大根堆的数据结构，非激活状态的值为1，激活状态为0，每次取元素只需要取堆顶元素
 	{
 		if (Bullet && !Bullet->IsActive())
 		{
-			OutIndex = index;
 			return Bullet;
 		}
 		index++;
@@ -32,7 +31,6 @@ AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool(int32& OutIndex)
 		if (NewBullet)
 		{
 			NewBullet->SetActive(false);
-			OutIndex = BulletPool.AddUnique(NewBullet);
 			return NewBullet;
 		}
 	}
