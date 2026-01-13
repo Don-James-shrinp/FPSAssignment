@@ -11,6 +11,7 @@ UFPSAttributeSet::UFPSAttributeSet()
 {
 	InitCurrentHealth(1.f);
 	InitMaxHealth(1.f);
+	InitDefensePower(1.f);
 }
 
 void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)

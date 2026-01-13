@@ -7,6 +7,7 @@
 #include "FPSEnemyCharacter.generated.h"
 
 class UEnemyUIComponent;
+class UWidgetComponent;
 /**
  * 
  */
@@ -31,6 +32,9 @@ private:
 #pragma region Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UEnemyUIComponent* EnemyPawnUIComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
+	UWidgetComponent* EnemyHealthWidgetComponent;
 #pragma endregion
 
 };

@@ -34,6 +34,14 @@ public:
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, MaxHealth)
 
+	UPROPERTY(BlueprintReadOnly, Category = "Defense")
+	FGameplayAttributeData DefensePower;  //  防御力
+	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, DefensePower)
+
+	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	FGameplayAttributeData DamageTaken;  //  收到的伤害
+	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, DamageTaken)
+
 private:
 	TWeakInterfacePtr<IPawnUIInterface> CachedPawnUIInterface;
 };

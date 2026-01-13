@@ -34,4 +34,8 @@ namespace FPSGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact, "Shared.Event.HitReact");
+
+	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_WeaponBaseDamage_Rifle, "Shared.SetByCaller.WeaponBaseDamage.Rifle");
+
+
 }

@@ -4,6 +4,7 @@
 #include "Widgets/FPSWidgetBase.h"
 #include "Interfaces/PawnUIInterface.h"
 #include "Components/UI/PlayerUIComponent.h"
+#include "Components/UI/EnemyUIComponent.h"
 
 void UFPSWidgetBase::NativeOnInitialized()
 {
@@ -15,5 +16,17 @@ void UFPSWidgetBase::NativeOnInitialized()
 		{
 			BP_OnOwningPlayerUIComponentInitialized(PlayerUIComponent);
 		}
+	}
+}
+
+void UFPSWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
+{
+	if (IPawnUIInterface* PawnUIInterface = Cast<IPawnUIInterface>(OwningEnemyActor))
+	{
+		UEnemyUIComponent* EnemyUIComponent = PawnUIInterface->GetEnemyUIComponent();
+		
+		checkf(EnemyUIComponent, TEXT("Failed To Get EnemyUIComponent From %s"), *OwningEnemyActor->GetActorNameOrLabel());
+
+		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
 	}
 }

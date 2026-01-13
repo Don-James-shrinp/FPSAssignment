@@ -1,5 +1,13 @@
 ### FPS Assignment
 
+## TODO
+
+- [ ] 实现伤害结算（先实现简单的伤害结算）
+- [ ] 实现敌人AI
+- [ ] 瞄准射击
+- [ ] 实现完整的GameLoop
+- [ ] 网络同步
+
 ## 项目地址
 
 [FPSAssignment](https://github.com/Don-James-shrinp/FPSAssignment)

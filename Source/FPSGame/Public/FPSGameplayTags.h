@@ -38,4 +38,6 @@ namespace FPSGameplayTags
 	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
 
 	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+
+	FPSGAME_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_SetByCaller_WeaponBaseDamage_Rifle);
 }

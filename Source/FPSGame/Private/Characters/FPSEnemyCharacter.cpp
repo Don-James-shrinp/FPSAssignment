@@ -5,11 +5,16 @@
 #include "Engine/AssetManager.h"
 #include "DataAssets/StartupData/DataAsset_EnemyStartupData.h"
 #include "Components/UI/EnemyUIComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Widgets/FPSWidgetBase.h"
 
 #include "FPSDebugHelper.h"
 AFPSEnemyCharacter::AFPSEnemyCharacter()
 {
 	EnemyPawnUIComponent = CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyPawnUIComponent"));
+
+	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidget"));
+	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
 }
 
 UPawnUIComponent* AFPSEnemyCharacter::GetPawnUIComponent() const
@@ -31,6 +36,11 @@ void AFPSEnemyCharacter::PossessedBy(AController* NewController)
 void AFPSEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (UFPSWidgetBase* HealthWidget = Cast<UFPSWidgetBase>(EnemyHealthWidgetComponent->GetUserWidgetObject()))
+	{
+		HealthWidget->InitEnemyCreatedWidget(this);
+	}
 }
 
 void AFPSEnemyCharacter::InitStartupData()
