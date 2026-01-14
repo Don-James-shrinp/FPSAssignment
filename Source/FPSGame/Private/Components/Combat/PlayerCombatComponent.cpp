@@ -13,3 +13,8 @@ AFPSPlayerWeapon* UPlayerCombatComponent::GetPlayerCurrentEquippedWeapon() const
 {
     return Cast<AFPSPlayerWeapon>(GetCharacterCurrentEquippedWeapon());
 }
+
+float UPlayerCombatComponent::GetPlayerCurrentEquippedWeaponDamageAtLevel(float InLevel) const
+{
+    return GetPlayerCurrentEquippedWeapon()->PlayerWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
+}

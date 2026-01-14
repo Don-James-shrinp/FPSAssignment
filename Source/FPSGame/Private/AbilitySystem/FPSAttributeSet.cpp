@@ -30,4 +30,11 @@ void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 		SetCurrentHealth(NewHealth);
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
 	}
+
+	if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())  //  受到伤害后，需要更新CurrentHealth
+	{
+		const float NewHealth = FMath::Max(GetCurrentHealth() - GetDamageTaken(), 0.f);
+		SetCurrentHealth(NewHealth);
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+	}
 }

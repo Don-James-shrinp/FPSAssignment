@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "FPSTypes/FPSEnumTypes.h"
 #include "FPSGameplayAbility.generated.h"
 
 
@@ -31,6 +32,11 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
 	UPawnCombatComponent* GetPawnCombatComponentFromActorInfo() const;
+
+	FActiveGameplayEffectHandle NativeApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle);
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|Ability", meta = (DisplayName = "Apply GameplayEffect To Target Actor", ExpandEnumAsExecs = "OutSuccessType"))  //  ExpandEnumAsExecs将枚举类型使用其枚举名称来显式
+	FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor* TargetActor, const FGameplayEffectSpecHandle& InSpecHandle, EFPSSuccessType& OutSuccessType);
 
 	UPROPERTY(EditDefaultsOnly, Category = "FPS|Ability")
 	EFPSAbilityActivationPolicy AbilityActivationPolicy = EFPSAbilityActivationPolicy::OTriggered;

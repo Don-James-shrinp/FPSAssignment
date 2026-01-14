@@ -2,6 +2,7 @@
 
 #pragma once
 #include "GameplayTagContainer.h"
+#include "ScalableFloat.h"
 #include "FPSStructTypes.generated.h"
 class UFPSGameplayAbility;
 class UFPSPlayerLinkedAnimLayer;
@@ -38,4 +39,7 @@ struct FFPSPlayerWeaponData  //  武器附属的数据（AnimLayer和Ability等）
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
 	TArray<FFPSPlayerAbilitySet> DefaultWeaponAbilities;  //  装备武器后获得的能力
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FScalableFloat WeaponBaseDamage; // Curve Table来配置武器的伤害
 };
