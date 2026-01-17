@@ -5,6 +5,8 @@
 #include "GameplayEffectExtension.h"
 #include "Interfaces/PawnUIInterface.h"
 #include "Components/UI/PawnUIComponent.h"
+#include "FPSBlueprintFunctionLibrary.h"
+#include "FPSGameplayTags.h"
 
 #include "FPSDebugHelper.h"
 UFPSAttributeSet::UFPSAttributeSet()
@@ -36,5 +38,13 @@ void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 		const float NewHealth = FMath::Max(GetCurrentHealth() - GetDamageTaken(), 0.f);
 		SetCurrentHealth(NewHealth);
 		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+	}
+
+	if (GetCurrentHealth() == 0.f)
+	{
+		UFPSBlueprintFunctionLibrary::AddGameplayTagToActorIfNone(
+			Data.Target.GetAvatarActor(),
+			FPSGameplayTags::Shared_Status_Dead
+		);
 	}
 }

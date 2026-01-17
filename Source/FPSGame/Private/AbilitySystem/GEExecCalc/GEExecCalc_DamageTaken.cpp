@@ -50,7 +50,6 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 			WeaponBaseDamage = TagMagnitude.Value;
 		}
 	}
-
 	float TargetDefensePower = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(
 		GetFPSDamgeCapture().DefensePowerDef,

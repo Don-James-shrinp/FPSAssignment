@@ -32,10 +32,12 @@ namespace FPSGameplayTags
 
 	/** Shared Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact, "Shared.Event.HitReact");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_WeaponBaseDamage_Rifle, "Shared.SetByCaller.WeaponBaseDamage.Rifle");
 
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Status_Dead, "Shared.Status.Dead");
 
 }
