@@ -3,8 +3,11 @@
 
 #include "AnimInstances/FPSCharacterAnimInstance.h"
 #include "Characters/FPSCharacterBase.h"
+#include "Characters/FPSEnemyCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "KismetAnimationLibrary.h"
+
+#include "FPSDebugHelper.h"
 void UFPSCharacterAnimInstance::NativeInitializeAnimation()
 {
 	if ((OwningCharacter = Cast<AFPSCharacterBase>(TryGetPawnOwner())))
@@ -16,9 +19,12 @@ void UFPSCharacterAnimInstance::NativeInitializeAnimation()
 void UFPSCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
 	if (!OwningCharacter || !OwningMovementComponent) return;
-
 	Velocity = OwningCharacter->GetVelocity();
 	GroundSpeed = Velocity.Size2D();  //  获得速度(矢量)的模长，仅考虑x和y方向，即在xy平面上的移动速度
+	/*if (AFPSEnemyCharacter* EnemyCharacter = Cast<AFPSEnemyCharacter>(OwningCharacter))
+	{
+		Debug::Print(FString::Printf(TEXT("GroundSpeed: %f; Acceleration: %f"), GroundSpeed, OwningMovementComponent->GetCurrentAcceleration().SizeSquared()));
+	}*/
 
 	bShouldMove = OwningMovementComponent->GetCurrentAcceleration().SizeSquared() > 0.f
 				&& GroundSpeed > 0.01f;

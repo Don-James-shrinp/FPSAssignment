@@ -34,26 +34,3 @@ UPlayerUIComponent* UFPSPlayerGameplayAbility::GetPlayerUIComponentFromActorInfo
 {
     return GetPlayerCharacterFromActorInfo()->GetPlayerUIComponent();
 }
-
-FGameplayEffectSpecHandle UFPSPlayerGameplayAbility::MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponDamage)
-{
-    check(EffectClass);
-    
-    FGameplayEffectContextHandle ContextHandle = GetFPSAbilitySystemComponentFromActorInfo()->MakeEffectContext();
-    ContextHandle.SetAbility(this);
-    ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
-    ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
-
-    FGameplayEffectSpecHandle EffectSpecHandle = GetFPSAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(
-        EffectClass,
-        GetAbilityLevel(),
-        ContextHandle
-    );
-
-    EffectSpecHandle.Data->SetSetByCallerMagnitude(  //  设定SetByCallerMagnitude，向TMap<FGameplayTag, float>中传入武器的伤害
-        FPSGameplayTags::Shared_SetByCaller_WeaponBaseDamage_Rifle,
-        InWeaponDamage
-    );
-
-    return EffectSpecHandle;
-}

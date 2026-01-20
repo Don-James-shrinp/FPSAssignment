@@ -23,6 +23,7 @@ UCLASS()
 class FPSGAME_API UFPSGameplayAbility : public UGameplayAbility
 {
 	GENERATED_BODY()
+
 protected:
 	virtual void OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec) override;
 	virtual void EndAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, bool bReplicateEndAbility, bool bWasCancelled) override;
@@ -40,4 +41,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "FPS|Ability")
 	EFPSAbilityActivationPolicy AbilityActivationPolicy = EFPSAbilityActivationPolicy::OTriggered;
+public:
+	UFUNCTION(BlueprintPure, Category = "FPS|Ability")
+	FGameplayEffectSpecHandle MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponDamage);
 };

@@ -24,4 +24,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
 	void RemoveGrantedAbilities(UPARAM(ref) TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove);  //  普通引用在蓝图中默认为Out Parameter，通过UPARAM(ref)使其成为input pin
 	
+	UFUNCTION(BlueprintCallable, Category = "FPS|Ability")
+	bool TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate);
 };

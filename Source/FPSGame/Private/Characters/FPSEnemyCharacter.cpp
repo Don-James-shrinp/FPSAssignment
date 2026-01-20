@@ -7,14 +7,31 @@
 #include "Components/UI/EnemyUIComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Widgets/FPSWidgetBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/Combat/PawnCombatComponent.h"
 
 #include "FPSDebugHelper.h"
 AFPSEnemyCharacter::AFPSEnemyCharacter()
 {
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
+
+	GetCharacterMovement()->bUseControllerDesiredRotation = false;
+	GetCharacterMovement()->bOrientRotationToMovement = true;  //  将朝向改变为移动方向
+	GetCharacterMovement()->RotationRate = FRotator(0.f, 180.f, 0.f);
+	GetCharacterMovement()->MaxWalkSpeed = 300.f;
+	GetCharacterMovement()->BrakingDecelerationWalking = 1000.f;
+
+
 	EnemyPawnUIComponent = CreateDefaultSubobject<UEnemyUIComponent>(TEXT("EnemyPawnUIComponent"));
 
 	EnemyHealthWidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("EnemyHealthWidget"));
 	EnemyHealthWidgetComponent->SetupAttachment(GetMesh());
+
+	EnemyCombatComponent = CreateDefaultSubobject<UPawnCombatComponent>(TEXT("EnemyCombatComponent"));
 }
 
 UPawnUIComponent* AFPSEnemyCharacter::GetPawnUIComponent() const
@@ -25,6 +42,11 @@ UPawnUIComponent* AFPSEnemyCharacter::GetPawnUIComponent() const
 UEnemyUIComponent* AFPSEnemyCharacter::GetEnemyUIComponent() const
 {
 	return EnemyPawnUIComponent;
+}
+
+UPawnCombatComponent* AFPSEnemyCharacter::GetPawnCombatComponent() const
+{
+	return nullptr;
 }
 
 void AFPSEnemyCharacter::PossessedBy(AController* NewController)
@@ -58,7 +80,6 @@ void AFPSEnemyCharacter::InitStartupData()
 			{
 				if (UDataAsset_StartupDataBase* LoadedData = CharacterStartupData.Get())
 				{
-					Debug::Print(TEXT("Enemy Data Loaded!"));
 					LoadedData->GiveToAbilitySystemComponent(FPSAbilitySystemComponent, AbilityLevel);
 				}
 			}

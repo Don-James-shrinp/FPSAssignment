@@ -7,6 +7,7 @@
 #include "Perception/AISenseConfig_Sight.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
+#include "FPSDebugHelper.h"
 AFPSAIController::AFPSAIController(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer.SetDefaultSubobjectClass<UCrowdFollowingComponent>("PathFollowingComponent"))
 {
@@ -36,7 +37,7 @@ ETeamAttitude::Type AFPSAIController::GetTeamAttitudeTowards(const AActor& Other
 		return ETeamAttitude::Hostile;
 	}
 
-	return ETeamAttitude::Hostile;
+	return ETeamAttitude::Friendly;
 }
 
 void AFPSAIController::BeginPlay()

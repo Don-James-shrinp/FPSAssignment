@@ -2,13 +2,13 @@
 
 ## TODO
 
-- [ ] 实现伤害结算（先实现简单的伤害结算）
+- [x] 实现伤害结算（先实现简单的伤害结算）
 - [ ] 实现敌人AI
-- [ ] 瞄准射击
 - [ ] 实现完整的GameLoop
-- [ ] 网络同步
-- [ ] 撰写伤害结算与施加到目标上的实现流程
-- [ ] 使用Animation Retarget将mixamo的动画导入到当前项目的骨骼上
+- [ ] 网络同步（敌人的属性信息、状态）、玩家的分数
+- [ ] 重构项目，减少冗余资产，由于本项目有些Ability存在重合，不需要实现两份
+- [x] 撰写伤害结算与施加到目标上的实现流程
+- [x] 使用Animation Retarget将mixamo的动画导入到当前项目的骨骼上
 
 ## 项目地址
 
@@ -181,3 +181,35 @@ void UFPSAbilitySystemComponent::OnAbilityInputReleased(const FGameplayTag& InIn
 }
 ```
 
+
+
+### 供选择的BlackBoard Key列表中仅显示SelfActor
+
+在BehaviorTree中使用MoveTo Task让AI向目标Actor移动，在选择Blackboard Key时，仅有一个默认选项即SelfActor，虽然在Blackboard中添加了自定义的Object类型的Key`Target Actor`，但是却没有出现在选项中
+
+原因是由于MoveTo仅接受以下两种作为目标
+
+- Vector类型，即给出具体的位置
+- Object类型且Base Class设置为Actor，给出目标Actor
+
+由于没有在Blackboard中将`TargetActor`的Base Class设置为Actor导致其没有出现在可选择的列表中
+
+### AI角色一直处于Idle状态
+
+当AI执行Move To移动到目标位置时，角色的动画始终处于Idle状态，初步判断应该是由于动画状态机的转换条件中的某个变量出了问题
+
+由于AnimInstance通过如下的条件来判断是否需要从Idel转化为移动状态
+
+```c++
+bShouldMove = OwningMovementComponent->GetCurrentAcceleration().SizeSquared() > 0.f
+			&& GroundSpeed > 0.01f;
+```
+
+运行时查看，发现AI角色的加速度就算是移动时依旧为0
+
+这是由于玩家输入驱动的移动和AI寻路驱动的移动有区别
+
+- 玩家输入驱动：相当于在输入方向上施加一个力，由牛顿第二定律F=ma知，此时玩家角色会产生加速度
+- AI寻路驱动：则是由AI Controller直接设置其速度(RequestedVelocity)，一般情况下加速度为0
+
+要使其有加速度，在角色蓝图中开启`Use Acceleration for Paths`就可以使得其能够有加速度

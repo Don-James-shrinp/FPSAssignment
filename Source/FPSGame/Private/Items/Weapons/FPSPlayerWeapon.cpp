@@ -19,8 +19,3 @@ TArray<FGameplayAbilitySpecHandle> AFPSPlayerWeapon::GetGrantedAbilitySpecHandle
 {
 	return GrantedAbilitySpecHandles;
 }
-
-void AFPSPlayerWeapon::SetCurrentAmmoNumber(const int32 NewAmmoNumber)
-{
-	CurrentAmmoNumber = NewAmmoNumber;
-}

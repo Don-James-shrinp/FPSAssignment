@@ -26,15 +26,20 @@ namespace FPSGameplayTags
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Equip_Rifle, "Player.Event.Equip.Rifle");
 	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Unequip_Rifle, "Player.Event.Unequip.Rifle");
-	UE_DEFINE_GAMEPLAY_TAG(Player_Event_Bullet_Hit, "Player.Event.Bullet.Hit");
+	
 
 	UE_DEFINE_GAMEPLAY_TAG(Player_Status_Aim, "Player.Status.Aim");
 
+	/** Enemy Tags **/
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Ability_Fire, "Enemy.Ability.Fire");
+
+	UE_DEFINE_GAMEPLAY_TAG(Enemy_Weapon_Rifle, "Enemy.Weapon.Rifle");
 	/** Shared Tags **/
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_HitReact, "Shared.Ability.HitReact");
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Ability_Death, "Shared.Ability.Death");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_HitReact, "Shared.Event.HitReact");
+	UE_DEFINE_GAMEPLAY_TAG(Shared_Event_Bullet_Hit, "Shared.Event.Bullet.Hit");
 
 	UE_DEFINE_GAMEPLAY_TAG(Shared_SetByCaller_WeaponBaseDamage_Rifle, "Shared.SetByCaller.WeaponBaseDamage.Rifle");
 

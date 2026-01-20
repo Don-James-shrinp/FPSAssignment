@@ -55,7 +55,7 @@ void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 		//  子弹发生碰撞
 		UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(  //  将命中事件发送给Shooter，用于后续的处理流程
 			CachedInstigator.Get(),
-			FPSGameplayTags::Player_Event_Bullet_Hit,
+			FPSGameplayTags::Shared_Event_Bullet_Hit,
 			Data
 		);
 		//Debug::Print(FString::Printf(TEXT("My Name: %s"), *GetActorNameOrLabel()));

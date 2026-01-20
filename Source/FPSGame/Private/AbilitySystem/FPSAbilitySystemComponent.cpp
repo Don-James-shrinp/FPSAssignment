@@ -57,3 +57,29 @@ void UFPSAbilitySystemComponent::RemoveGrantedAbilities(UPARAM(ref)TArray<FGamep
 
 	InSpecHandlesToRemove.Empty();
 }
+
+bool UFPSAbilitySystemComponent::TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
+{
+	check(AbilityTagToActivate.IsValid());
+
+	TArray<FGameplayAbilitySpec*> FoundAbilitySpecs;
+	GetActivatableGameplayAbilitySpecsByAllMatchingTags(
+		AbilityTagToActivate.GetSingleTagContainer(),
+		FoundAbilitySpecs
+	);
+
+	if (!FoundAbilitySpecs.IsEmpty())
+	{
+		const int RandomIndex = FMath::RandRange(0, FoundAbilitySpecs.Num() - 1);
+
+		FGameplayAbilitySpec* SpecToActivate = FoundAbilitySpecs[RandomIndex];
+
+		check(SpecToActivate);
+
+		if (!SpecToActivate->IsActive())
+		{
+			return TryActivateAbility(SpecToActivate->Handle);
+		}
+	}
+	return false;
+}

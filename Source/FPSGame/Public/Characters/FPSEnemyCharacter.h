@@ -21,6 +21,8 @@ public:
 
 	virtual UPawnUIComponent* GetPawnUIComponent() const override;
 	virtual UEnemyUIComponent* GetEnemyUIComponent() const override;
+
+	virtual UPawnCombatComponent* GetPawnCombatComponent() const override;
 protected:
 	virtual void PossessedBy(AController* NewController) override;
 
@@ -35,6 +37,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI", meta = (AllowPrivateAccess = "true"))
 	UWidgetComponent* EnemyHealthWidgetComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPawnCombatComponent* EnemyCombatComponent;
 #pragma endregion
 
 };

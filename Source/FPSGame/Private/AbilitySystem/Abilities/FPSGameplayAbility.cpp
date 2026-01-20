@@ -5,6 +5,7 @@
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
 #include "Components/Combat/PawnCombatComponent.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "FPSGameplayTags.h"
 
 #include "FPSDebugHelper.h"
 
@@ -58,4 +59,27 @@ FActiveGameplayEffectHandle UFPSGameplayAbility::BP_ApplyEffectSpecHandleToTarge
 	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
 	OutSuccessType = ActiveGameplayEffectHandle.WasSuccessfullyApplied() ? EFPSSuccessType::Successful : EFPSSuccessType::Failed;
 	return ActiveGameplayEffectHandle;
+}
+
+FGameplayEffectSpecHandle UFPSGameplayAbility::MakeDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponDamage)
+{
+	check(EffectClass);
+
+	FGameplayEffectContextHandle ContextHandle = GetFPSAbilitySystemComponentFromActorInfo()->MakeEffectContext();
+	ContextHandle.SetAbility(this);
+	ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+	ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+
+	FGameplayEffectSpecHandle EffectSpecHandle = GetFPSAbilitySystemComponentFromActorInfo()->MakeOutgoingSpec(
+		EffectClass,
+		GetAbilityLevel(),
+		ContextHandle
+	);
+
+	EffectSpecHandle.Data->SetSetByCallerMagnitude(  //  设定SetByCallerMagnitude，向TMap<FGameplayTag, float>中传入武器的伤害
+		FPSGameplayTags::Shared_SetByCaller_WeaponBaseDamage_Rifle,
+		InWeaponDamage
+	);
+
+	return EffectSpecHandle;
 }

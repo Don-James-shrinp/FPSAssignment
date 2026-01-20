@@ -28,10 +28,6 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "FPS|Ability")
 	UPlayerUIComponent* GetPlayerUIComponentFromActorInfo();
-
-	UFUNCTION(BlueprintPure, Category = "FPS|Ability")
-	FGameplayEffectSpecHandle MakePlayerDamageEffectSpecHandle(TSubclassOf<UGameplayEffect> EffectClass, float InWeaponDamage);
-
 private:
 	TWeakObjectPtr<AFPSPlayerCharacter> CachedPlayerCharacter;
 	TWeakObjectPtr<AFPSPlayerController> CachedPlayerController;
