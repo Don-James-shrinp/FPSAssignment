@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FPS|FunctionLibrary")
 	static void RemoveGameplayTagFromActorIfFound(AActor* InActor, FGameplayTag TagToRemove);
 
-	UFUNCTION(BlueprintCallable, Category = "FPS|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = ""))
+	UFUNCTION(BlueprintCallable, Category = "FPS|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EFPSConfirmType& OutConfirmType);
 
 

@@ -26,6 +26,19 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	TArray<FGameplayAbilitySpecHandle> GetGrantedAbilitySpecHandles() const;  // GrantedAbilitySpecHandles Getter
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapons")
+	int32 MaxAmmoNumber = 60;
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
+	FORCEINLINE int32 GetCurrentAmmoNumber() const { return CurrentAmmoNumber; }
+
+	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
+	FORCEINLINE void SetCurrentAmmoNumber(const int32 NewAmmoNumber) { CurrentAmmoNumber = NewAmmoNumber; }
 private:
+	UPROPERTY()
 	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
+
+	UPROPERTY()
+	int32 CurrentAmmoNumber;
 };
