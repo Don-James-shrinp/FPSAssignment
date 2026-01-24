@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Engine/DataTable.h"
 #include "GameModes/FPSGameModeBase.h"
-#include "FPSRaceGameMode.generated.h"
+#include "FPSCompetitionGameMode.generated.h"
 
 class AFPSEnemyCharacter;
 /**
@@ -15,7 +15,7 @@ class AFPSEnemyCharacter;
 
 
 UENUM(BlueprintType)
-enum class ERaceGameState : uint8
+enum class ECompetitionGameState : uint8
 {
 	BeforeSpawningNewWave,  //  生成下一波前，用于进行一些准备工作
 	SpawningWave,	//  生成新一波的敌人
@@ -52,9 +52,9 @@ struct FEnemyWaveSpawnTableRow : public FTableRowBase
 	int32 TotalCountToSpawnInCurrentWave = 1;
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameStateChangeDelegate, ERaceGameState, CurrentGameState);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGameStateChangeDelegate, ECompetitionGameState, CurrentGameState);
 UCLASS()
-class FPSGAME_API AFPSRaceGameMode : public AFPSGameModeBase
+class FPSGAME_API AFPSCompetitionGameMode : public AFPSGameModeBase
 {
 	GENERATED_BODY()
 protected:
@@ -63,7 +63,7 @@ protected:
 
 private:
 
-	void SetCurrentGameState(ERaceGameState NewState);
+	void SetCurrentGameState(ECompetitionGameState NewState);
 
 	void PreloadNextWave();  // 通过异步的方式预加载下一波
 
@@ -80,7 +80,7 @@ private:
 
 	
 	UPROPERTY()
-	ERaceGameState CurrentRaceGameState;
+	ECompetitionGameState CurrentCompetitionGameState;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FOnGameStateChangeDelegate OnGameStateChange;

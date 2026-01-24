@@ -1,48 +1,54 @@
 // Origin OvO CopyRight Reserved
 
 
-#include "GameModes/FPSRaceGameMode.h"
+#include "GameModes/FPSCompetitionGameMode.h"
 #include "Engine/AssetManager.h"
 #include "Characters/FPSEnemyCharacter.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
 
-void AFPSRaceGameMode::BeginPlay()
+#include "FPSDebugHelper.h"
+
+void AFPSCompetitionGameMode::BeginPlay()
 {
+	Super::BeginPlay();
 	checkf(EnemyWaveSpawnDataTable, TEXT("Forgot to assign enemy spawn data table!"));
 
-	SetCurrentGameState(ERaceGameState::BeforeSpawningNewWave);
+	SetCurrentGameState(ECompetitionGameState::BeforeSpawningNewWave);
 
 	TotalWaveToSpawn = EnemyWaveSpawnDataTable->GetRowNames().Num();
 
 	PreloadNextWave();
 }
 
-void AFPSRaceGameMode::Tick(float DeltaTime)
+void AFPSCompetitionGameMode::Tick(float DeltaTime)
 {
-	if (CurrentRaceGameState == ERaceGameState::BeforeSpawningNewWave)
+	Super::Tick(DeltaTime);
+	const UEnum* EnumPtr = StaticEnum<ECompetitionGameState>();
+	//Debug::Print(FString::Printf(TEXT("Current State: %s"), *EnumPtr->GetNameStringByValue(static_cast<int64>(CurrentCompetitionGameState))));
+	if (CurrentCompetitionGameState == ECompetitionGameState::BeforeSpawningNewWave)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		if (TimeElapsedSinceStart >= BeforeWaveStartWaitTime)
 		{
 			TimeElapsedSinceStart = 0.f;
-			SetCurrentGameState(ERaceGameState::SpawningWave);
+			SetCurrentGameState(ECompetitionGameState::SpawningWave);
 		}
 	}
 
-	if (CurrentRaceGameState == ERaceGameState::SpawningWave)
+	if (CurrentCompetitionGameState == ECompetitionGameState::SpawningWave)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		
 		if (TimeElapsedSinceStart >= SpawnEnemiesDelayTime)
 		{
-			CurrentWaveSpawnedEnemyCount += SpawnCurrentWave();
+			CurrentAliveEnemyCount += SpawnCurrentWave();
 			TimeElapsedSinceStart = 0.f;
-			SetCurrentGameState(ERaceGameState::InBattle);
+			SetCurrentGameState(ECompetitionGameState::InBattle);
 		}
 	}
 
-	if (CurrentRaceGameState == ERaceGameState::WaveComplete)
+	if (CurrentCompetitionGameState == ECompetitionGameState::WaveComplete)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		if (TimeElapsedSinceStart >= WaveCompleteWaitTime)
@@ -50,23 +56,24 @@ void AFPSRaceGameMode::Tick(float DeltaTime)
 			TimeElapsedSinceStart = 0.f;
 			if (IsAllWaveDone())
 			{
-				SetCurrentGameState(ERaceGameState::AllWaveDone);
+				Debug::Print(TEXT("All Wave Done!"));
+				SetCurrentGameState(ECompetitionGameState::AllWaveDone);
 			}
 			else
 			{
-				SetCurrentGameState(ERaceGameState::BeforeSpawningNewWave);
+				SetCurrentGameState(ECompetitionGameState::BeforeSpawningNewWave);
 				PreloadNextWave();
 			}
 		}
 	}
 }
 
-void AFPSRaceGameMode::SetCurrentGameState(ERaceGameState NewState)
+void AFPSCompetitionGameMode::SetCurrentGameState(ECompetitionGameState NewState)
 {
-	CurrentRaceGameState = NewState;
+	CurrentCompetitionGameState = NewState;
 }
 
-void AFPSRaceGameMode::PreloadNextWave()
+void AFPSCompetitionGameMode::PreloadNextWave()
 {
 	PreloadedEnemyClassMap.Empty();
 
@@ -91,7 +98,7 @@ void AFPSRaceGameMode::PreloadNextWave()
 	}
 }
 
-int32 AFPSRaceGameMode::SpawnCurrentWave()
+int32 AFPSCompetitionGameMode::SpawnCurrentWave()
 {
 	if (TargetPoints.IsEmpty())
 	{
@@ -145,17 +152,17 @@ int32 AFPSRaceGameMode::SpawnCurrentWave()
 	return EnemiesSpawnedCountThisTime;
 }
 
-bool AFPSRaceGameMode::IsAllWaveDone()
+bool AFPSCompetitionGameMode::IsAllWaveDone()
 {
 	return CurrentWave > TotalWaveToSpawn;
 }
 
-bool AFPSRaceGameMode::ShouldSpawnMoreEnemies()
+bool AFPSCompetitionGameMode::ShouldSpawnMoreEnemies()
 {
 	return CurrentWaveSpawnedEnemyCount < GetCurrentWaveSpawnTableRow()->TotalCountToSpawnInCurrentWave;
 }
 
-FEnemyWaveSpawnTableRow* AFPSRaceGameMode::GetCurrentWaveSpawnTableRow() const
+FEnemyWaveSpawnTableRow* AFPSCompetitionGameMode::GetCurrentWaveSpawnTableRow() const
 {
 	const FName RowName = FName(TEXT("Wave") + FString::FromInt(CurrentWave));  //  波次以Wave+WaveNum的形式命名
 
@@ -166,9 +173,10 @@ FEnemyWaveSpawnTableRow* AFPSRaceGameMode::GetCurrentWaveSpawnTableRow() const
 	return CurrentRow;
 }
 
-void AFPSRaceGameMode::OnEnemyDestroyed(AActor* DestroyedEnemy)
+void AFPSCompetitionGameMode::OnEnemyDestroyed(AActor* DestroyedEnemy)
 {
 	CurrentAliveEnemyCount--;
+	Debug::Print(FString::Printf(TEXT("Current Alive Enemy: %d"), CurrentAliveEnemyCount));
 	if (ShouldSpawnMoreEnemies())
 	{
 		CurrentAliveEnemyCount += SpawnCurrentWave();
@@ -176,6 +184,7 @@ void AFPSRaceGameMode::OnEnemyDestroyed(AActor* DestroyedEnemy)
 	else if (CurrentAliveEnemyCount == 0)
 	{
 		CurrentWaveSpawnedEnemyCount = 0;
-		SetCurrentGameState(ERaceGameState::WaveComplete);
+		CurrentWave++;
+		SetCurrentGameState(ECompetitionGameState::WaveComplete);
 	}
 }

@@ -13,5 +13,7 @@ UCLASS()
 class FPSGAME_API AFPSGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+public:
+	AFPSGameModeBase();
 	
 };

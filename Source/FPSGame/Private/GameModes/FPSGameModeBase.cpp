@@ -3,3 +3,8 @@
 
 #include "GameModes/FPSGameModeBase.h"
 
+AFPSGameModeBase::AFPSGameModeBase()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+}
