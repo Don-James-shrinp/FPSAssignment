@@ -8,6 +8,8 @@
 // Sets default values
 AFPSWeaponBase::AFPSWeaponBase()
 {
+	bReplicates = true;
+
 	PrimaryActorTick.bCanEverTick = false;
 
 	WeaponStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponStaticMesh"));

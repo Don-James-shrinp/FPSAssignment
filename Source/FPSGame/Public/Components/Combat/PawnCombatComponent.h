@@ -23,12 +23,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FPS|Combat")
 	AFPSWeaponBase* GetCharacterWeaponByTag(FGameplayTag InWeaponTag) const;
 
-	UPROPERTY(BlueprintReadWrite, Category = "FPS|Combat")
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentEquippedWeaponTag, BlueprintReadWrite, Category = "FPS|Combat")
 	FGameplayTag CurrentEquippedWeaponTag;  //  现在装备的武器Tag
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Combat")
 	AFPSWeaponBase* GetCharacterCurrentEquippedWeapon() const;
 
+	UFUNCTION()
+	virtual void OnRep_CurrentEquippedWeaponTag(FGameplayTag OldWeaponTag);
+
+	virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
 private:
 	TMap<FGameplayTag, AFPSWeaponBase*> CharacterCarriedWeaponMap;
 };

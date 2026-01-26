@@ -26,22 +26,26 @@ public:
 
 	virtual void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;  //  当GameplayEffect作用与AttributeSet改变Attribute后执行
 
-	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_CurrentHealth)
 	FGameplayAttributeData CurrentHealth;
 	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, CurrentHealth)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", Replicated)
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, MaxHealth)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Defense")
+	UPROPERTY(BlueprintReadOnly, Category = "Defense", Replicated)
 	FGameplayAttributeData DefensePower;  //  防御力
 	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, DefensePower)
 
-	UPROPERTY(BlueprintReadOnly, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", Replicated)
 	FGameplayAttributeData DamageTaken;  //  收到的伤害
 	ATTRIBUTE_ACCESSORS(UFPSAttributeSet, DamageTaken)
 
+	virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	virtual void OnRep_CurrentHealth(const FGameplayAttributeData& OldHealth);
 private:
 	TWeakInterfacePtr<IPawnUIInterface> CachedPawnUIInterface;
 };

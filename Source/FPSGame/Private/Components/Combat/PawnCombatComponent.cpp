@@ -3,13 +3,22 @@
 
 #include "Components/Combat/PawnCombatComponent.h"
 #include "Items/Weapons/FPSWeaponBase.h"
+#include "Net/UnrealNetwork.h"
 
 #include "FPSDebugHelper.h"
 void UPawnCombatComponent::RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AFPSWeaponBase* InWeaponToRegister, bool bRegisterAsEquippedWeapon)
 {
-	checkf(!CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister), TEXT("A Tag named %s has already been registered"), *InWeaponTagToRegister.ToString());
+	if (CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Weapon Tag %s already exists! Overwriting."), *InWeaponTagToRegister.ToString());
+
+		CharacterCarriedWeaponMap.Remove(InWeaponTagToRegister);
+	}
 	
-	check(InWeaponToRegister);
+	if (!InWeaponToRegister)
+	{
+		return;
+	}
 
 	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
 
@@ -39,4 +48,13 @@ AFPSWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 		return nullptr;
 	}
 	return GetCharacterWeaponByTag(CurrentEquippedWeaponTag);
+}
+
+void UPawnCombatComponent::OnRep_CurrentEquippedWeaponTag(FGameplayTag OldWeaponTag)
+{
+}
+
+void UPawnCombatComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
+{
+	DOREPLIFETIME(UPawnCombatComponent, CurrentEquippedWeaponTag);
 }
