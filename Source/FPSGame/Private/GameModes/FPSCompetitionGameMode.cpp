@@ -6,6 +6,7 @@
 #include "Characters/FPSEnemyCharacter.h"
 #include "Engine/TargetPoint.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameState/FPSGameState.h"
 
 #include "FPSDebugHelper.h"
 
@@ -25,8 +26,10 @@ void AFPSCompetitionGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	const UEnum* EnumPtr = StaticEnum<ECompetitionGameState>();
+	AFPSGameState* FPSGameState = GetGameState<AFPSGameState>();
+	if (!FPSGameState) return;
 	//Debug::Print(FString::Printf(TEXT("Current State: %s"), *EnumPtr->GetNameStringByValue(static_cast<int64>(CurrentCompetitionGameState))));
-	if (CurrentCompetitionGameState == ECompetitionGameState::BeforeSpawningNewWave)
+	if (FPSGameState->CurrentGameState == ECompetitionGameState::BeforeSpawningNewWave)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		if (TimeElapsedSinceStart >= BeforeWaveStartWaitTime)
@@ -36,7 +39,7 @@ void AFPSCompetitionGameMode::Tick(float DeltaTime)
 		}
 	}
 
-	if (CurrentCompetitionGameState == ECompetitionGameState::SpawningWave)
+	if (FPSGameState->CurrentGameState == ECompetitionGameState::SpawningWave)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		
@@ -48,7 +51,7 @@ void AFPSCompetitionGameMode::Tick(float DeltaTime)
 		}
 	}
 
-	if (CurrentCompetitionGameState == ECompetitionGameState::WaveComplete)
+	if (FPSGameState->CurrentGameState == ECompetitionGameState::WaveComplete)
 	{
 		TimeElapsedSinceStart += DeltaTime;
 		if (TimeElapsedSinceStart >= WaveCompleteWaitTime)
@@ -70,7 +73,9 @@ void AFPSCompetitionGameMode::Tick(float DeltaTime)
 
 void AFPSCompetitionGameMode::SetCurrentGameState(ECompetitionGameState NewState)
 {
-	CurrentCompetitionGameState = NewState;
+	AFPSGameState* FPSGameState = GetGameState<AFPSGameState>();
+	if (!FPSGameState) return;
+	FPSGameState->CurrentGameState = NewState;
 }
 
 void AFPSCompetitionGameMode::PreloadNextWave()

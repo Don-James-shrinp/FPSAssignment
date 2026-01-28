@@ -18,6 +18,8 @@ public:
 	UPROPERTY(ReplicatedUsing = OnRep_KillCount, BlueprintReadOnly)
 	int32 KillCount = 0;
 
+	void AddKillCount(int32 Amount);
+
 	UFUNCTION()
 	void OnRep_KillCount(int32 OldKillCount);
 

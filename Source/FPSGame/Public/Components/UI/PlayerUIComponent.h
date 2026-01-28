@@ -8,7 +8,9 @@
 
 class UFPSWidgetBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnAmmoNumberChangedDelegate, int32, NewAmmoNumber, int32, MaxAmmoNumber);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnTwoIntNumberChangedDelegate, int32, NewAmmoNumber, int32, MaxAmmoNumber);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSingleIntNumberChangedDelegate, int32, NewIntNumber);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
 /**
@@ -20,7 +22,10 @@ class FPSGAME_API UPlayerUIComponent : public UPawnUIComponent
 	GENERATED_BODY()
 public:
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
-	FOnAmmoNumberChangedDelegate OnAmmoNumberChanged;  //  子弹数量发生变化时进行BroadCast
+	FOnTwoIntNumberChangedDelegate OnAmmoNumberChanged;  //  子弹数量发生变化时进行BroadCast
+
+	UPROPERTY(BlueprintCallable, BlueprintAssignable)
+	FOnSingleIntNumberChangedDelegate OnKillCountChanged;  //  当玩家的杀敌数量发生变化
 
 	UPROPERTY(BlueprintCallable, BlueprintAssignable)
 	FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;

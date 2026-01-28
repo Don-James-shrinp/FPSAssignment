@@ -8,6 +8,8 @@
 #include "FPSBlueprintFunctionLibrary.h"
 #include "FPSGameplayTags.h"
 #include "Net/UnrealNetwork.h"
+#include "PlayerState/FPSPlayerState.h"
+#include "Characters/FPSPlayerCharacter.h"
 
 #include "FPSDebugHelper.h"
 UFPSAttributeSet::UFPSAttributeSet()
@@ -23,6 +25,18 @@ void UFPSAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 	{
 		const float NewHealth = FMath::Max(GetCurrentHealth() - GetDamageTaken(), 0.f);
 		SetCurrentHealth(NewHealth);
+		if (GetCurrentHealth() == 0.f)  //  遭受伤害之后，生命值归零，进行击杀判定
+		{
+			FGameplayEffectContextHandle Context = Data.EffectSpec.GetContext();
+			if (AFPSPlayerCharacter* Instigator = Cast<AFPSPlayerCharacter>(Context.GetInstigator()))  //  造成伤害的是玩家时才需要判定
+			{
+				AFPSPlayerState* PlayerState = Instigator->GetPlayerState<AFPSPlayerState>();
+				if (PlayerState)
+				{
+					PlayerState->AddKillCount(1);
+				}
+			}
+		}
 	}
 
 	if (GetCurrentHealth() == 0.f)
