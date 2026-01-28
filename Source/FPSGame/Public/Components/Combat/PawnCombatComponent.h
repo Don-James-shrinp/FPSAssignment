@@ -28,9 +28,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Combat")
 	AFPSWeaponBase* GetCharacterCurrentEquippedWeapon() const;
-
-	UFUNCTION()
-	virtual void OnRep_CurrentEquippedWeaponTag(FGameplayTag OldWeaponTag);
+	
+	UFUNCTION(BlueprintCallable)
+	virtual void OnRep_CurrentEquippedWeaponTag(FGameplayTag OldCurrentEquippedWeaponTag);
 
 	virtual void GetLifetimeReplicatedProps(TArray< class FLifetimeProperty >& OutLifetimeProps) const override;
 private:

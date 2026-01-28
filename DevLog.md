@@ -3,12 +3,14 @@
 ## TODO
 
 - [x] 实现伤害结算（先实现简单的伤害结算）
-- [ ] 实现敌人AI
-- [ ] 实现完整的GameLoop
-- [ ] 网络同步（敌人的属性信息、状态）、玩家的分数
+- [x] 实现敌人AI
+- [x] 实现完整的GameLoop
+- [x] 网络同步（敌人的属性信息、状态）、玩家的分数
 - [ ] 重构项目，减少冗余资产，由于本项目有些Ability存在重合，不需要实现两份
 - [x] 撰写伤害结算与施加到目标上的实现流程
 - [x] 使用Animation Retarget将mixamo的动画导入到当前项目的骨骼上
+- [ ] 将子弹对象池实现为WorldSubsystem，减少多人场景下每个玩家武器都挂载BulletPool导致的冗余子弹生成
+- [ ] 将武器的Fire实现为RPC的形式，因为客户端需要传入其Controller的Forward Vector作为子弹生成时的Direction，通过RPC传入此参数，由服务端的Subsystem获取子弹，并同步给客户端
 
 ## 项目地址
 

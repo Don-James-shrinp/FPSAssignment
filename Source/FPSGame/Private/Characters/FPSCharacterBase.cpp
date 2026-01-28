@@ -15,6 +15,15 @@ AFPSCharacterBase::AFPSCharacterBase()
 
 	FPSAbilitySystemComponent = CreateDefaultSubobject<UFPSAbilitySystemComponent>(TEXT("FPSAbilitySystemComponent"));
 
+	if (IsPlayerControlled())
+	{
+		FPSAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
+	}
+	else
+	{
+		FPSAbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
+	}
+
 	FPSAttributeSet = CreateDefaultSubobject<UFPSAttributeSet>(TEXT("FPSAttributeSet"));
 
 }

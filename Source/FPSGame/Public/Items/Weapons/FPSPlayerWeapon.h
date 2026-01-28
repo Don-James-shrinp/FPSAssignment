@@ -35,10 +35,19 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "FPS|Weapons")
 	FORCEINLINE void SetCurrentAmmoNumber(const int32 NewAmmoNumber) { CurrentAmmoNumber = NewAmmoNumber; }
+
+	UFUNCTION()
+	void OnRep_CurrentAmmo(int32 OldAmmoNumber);
+	
+protected:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 private:
 	UPROPERTY()
 	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;
 
-	UPROPERTY()
+	UPROPERTY(ReplicatedUsing = OnRep_CurrentAmmo)
 	int32 CurrentAmmoNumber;
+
+	
 };

@@ -14,6 +14,10 @@ UBulletPoolComponent::UBulletPoolComponent()
 
 AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool()
 {
+	if (!GetOwner()->HasAuthority())
+	{
+		return nullptr;
+	}
 	int32 index = 0;
 	for (AFPSBulletBase* Bullet : BulletPool)  //  现在的复杂度为O(n)，这里可以优化，设计一个类似于大根堆的数据结构，非激活状态的值为1，激活状态为0，每次取元素只需要取堆顶元素
 	{
@@ -31,6 +35,7 @@ AFPSBulletBase* UBulletPoolComponent::GetBulletFromPool()
 		if (NewBullet)
 		{
 			NewBullet->SetActive(false);
+			NewBullet->SetReplicates(true);
 			return NewBullet;
 		}
 	}
@@ -48,24 +53,28 @@ void UBulletPoolComponent::BeginPlay()
 	Super::BeginPlay();
 	checkf(BulletClass, TEXT("Forgot to assign bullet class in bullet pool!"))
 
-	UWorld* World = GetWorld();
-	if (World)
+	if (GetOwner()->HasAuthority())
 	{
-		for (int32 i = 0; i < BulletPoolSize; i++)
+		UWorld* World = GetWorld();
+		if (World)
 		{
-			FVector SpawnLocation = FVector(0.f, 0.f, 0.f);
-			FRotator SpawnRotation = FRotator::ZeroRotator;
-
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = GetOwner();
-			SpawnParams.Instigator = GetOwner()->GetInstigator();
-
-			AFPSBulletBase* NewBullet = World->SpawnActor<AFPSBulletBase>(BulletClass, SpawnLocation, SpawnRotation, SpawnParams);
-
-			if (NewBullet)
+			for (int32 i = 0; i < BulletPoolSize; i++)
 			{
-				NewBullet->SetActive(false);
-				BulletPool.AddUnique(NewBullet);
+				FVector SpawnLocation = FVector(0.f, 0.f, 0.f);
+				FRotator SpawnRotation = FRotator::ZeroRotator;
+
+				FActorSpawnParameters SpawnParams;
+				SpawnParams.Owner = GetOwner();
+				SpawnParams.Instigator = GetOwner()->GetInstigator();
+
+				AFPSBulletBase* NewBullet = World->SpawnActor<AFPSBulletBase>(BulletClass, SpawnLocation, SpawnRotation, SpawnParams);
+
+				if (NewBullet)
+				{
+					NewBullet->SetReplicates(true);
+					NewBullet->SetActive(false);
+					BulletPool.AddUnique(NewBullet);
+				}
 			}
 		}
 	}

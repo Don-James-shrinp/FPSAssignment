@@ -50,8 +50,9 @@ AFPSWeaponBase* UPawnCombatComponent::GetCharacterCurrentEquippedWeapon() const
 	return GetCharacterWeaponByTag(CurrentEquippedWeaponTag);
 }
 
-void UPawnCombatComponent::OnRep_CurrentEquippedWeaponTag(FGameplayTag OldWeaponTag)
+void UPawnCombatComponent::OnRep_CurrentEquippedWeaponTag(FGameplayTag OldCurrentEquippedWeaponTag)
 {
+	Debug::Print(TEXT("Pawn Rep"));
 }
 
 void UPawnCombatComponent::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const

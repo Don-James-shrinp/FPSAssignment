@@ -25,8 +25,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FPS|Combat")
 	float GetPlayerCurrentEquippedWeaponDamageAtLevel(float InLevel) const;
 
-	virtual void OnRep_CurrentEquippedWeaponTag(FGameplayTag OldWeaponTag) override;
-
 	UPROPERTY(EditDefaultsOnly, Category = "FPS|Combat")
 	FName GunHoldSocket = FName(TEXT("Hold_Gun_Socket"));
+
+	virtual void OnRep_CurrentEquippedWeaponTag(FGameplayTag OldCurrentEquippedWeaponTag) override;
 };
