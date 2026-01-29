@@ -42,6 +42,7 @@ public:
 protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
+	virtual void ConsumeAmmo() override;
 private:
 	UPROPERTY()
 	TArray<FGameplayAbilitySpecHandle> GrantedAbilitySpecHandles;

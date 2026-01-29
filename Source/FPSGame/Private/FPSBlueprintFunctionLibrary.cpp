@@ -4,6 +4,7 @@
 #include "FPSBlueprintFunctionLibrary.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
+#include "GenericTeamAgentInterface.h"
 
 UFPSAbilitySystemComponent* UFPSBlueprintFunctionLibrary::NativeGetFPPASCFromActor(AActor* InActor)
 {
@@ -40,4 +41,17 @@ void UFPSBlueprintFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGamepla
 {
     bool HasTag = NativeDoesActorHaveTag(InActor, TagToCheck);
     OutConfirmType = HasTag ? EFPSConfirmType::Yes : EFPSConfirmType::No;
+}
+
+bool UFPSBlueprintFunctionLibrary::IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn)
+{
+    check(QueryPawn && TargetPawn);
+    IGenericTeamAgentInterface* QueryTeamAgent = Cast<IGenericTeamAgentInterface>(QueryPawn->GetController());
+    IGenericTeamAgentInterface* TargetTeamAgent = Cast<IGenericTeamAgentInterface>(TargetPawn->GetController());
+    if (QueryTeamAgent && TargetTeamAgent)
+    {
+        return QueryTeamAgent->GetGenericTeamId() != TargetTeamAgent->GetGenericTeamId();
+    }
+
+    return false;
 }

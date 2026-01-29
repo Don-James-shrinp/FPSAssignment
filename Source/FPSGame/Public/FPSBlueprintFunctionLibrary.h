@@ -29,5 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "FPS|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
 	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EFPSConfirmType& OutConfirmType);
 
+	UFUNCTION(BlueprintPure, Category = "FPS|FunctionLibrary")
+	static bool IsTargetPawnHostile(APawn* QueryPawn, APawn* TargetPawn);  // 查询QueryPawn对TargetPawn的attitude，是友好还是敌对
+
 
 };

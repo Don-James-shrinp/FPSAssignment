@@ -21,6 +21,8 @@ public:
 
 	virtual ETeamAttitude::Type GetTeamAttitudeTowards(const AActor& Other) const override;  // 获取当前Controller对其他Actor的态度是敌对还是友好
 
+	UFUNCTION(BlueprintCallable, Category = "Perception")
+	AActor* GetRandomTarget();
 protected:
 	virtual void BeginPlay() override;
 
@@ -45,5 +47,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Perception Config")
 	FName TargetObjectKeyName = "TargetActor";
+
+	TArray<AActor*> PerceptedActors;
 
 };

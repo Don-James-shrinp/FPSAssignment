@@ -9,6 +9,8 @@
 #include "FPSGameplayTags.h"
 #include "Characters/FPSEnemyCharacter.h"
 #include "Characters/FPSPlayerCharacter.h"
+#include "Subsystems/FPSBulletPoolWorldSubsystem.h"
+#include "FPSBlueprintFunctionLibrary.h"
 
 #include "FPSDebugHelper.h"
 AFPSBulletBase::AFPSBulletBase()
@@ -70,6 +72,15 @@ void AFPSBulletBase::OnCollisionBoxBeginOverlap(UPrimitiveComponent* OverlappedC
 
     if (CachedInstigator.IsValid()) // 确保 CachedInstigator 没死/没被销毁
     {
+        APawn* QueryPawn = Cast<APawn>(CachedInstigator.Get());
+        APawn* TargetPawn = Cast<APawn>(OtherActor);
+        if (QueryPawn && TargetPawn)
+        {
+            if (!UFPSBlueprintFunctionLibrary::IsTargetPawnHostile(QueryPawn, TargetPawn))  //  避免AI之间或者玩家之间互相伤害
+            {
+                return;
+            }
+        }
         AFPSPlayerCharacter* PlayerCharacter = Cast<AFPSPlayerCharacter>(CachedInstigator.Get());        
         FGameplayEventData Data;
         Data.Instigator = CachedInstigator.Get();
@@ -154,7 +165,16 @@ void AFPSBulletBase::SetActive(bool InIsActive, AActor* InInstigator, FVector St
 
 }
 
-void AFPSBulletBase::Deactivate()
+void AFPSBulletBase::Deactivate()  //  将子弹设置为空闲状态，归还子弹
 {
 	SetActive(false);
+
+    if (HasAuthority())
+    {
+        if (UWorld* World = GetWorld())
+        {
+            UFPSBulletPoolWorldSubsystem* Pool = World->GetSubsystem<UFPSBulletPoolWorldSubsystem>();
+            Pool->ReturnBullet(this);
+        }
+    }
 }

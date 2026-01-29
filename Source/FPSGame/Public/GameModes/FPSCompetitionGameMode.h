@@ -48,7 +48,11 @@ class FPSGAME_API AFPSCompetitionGameMode : public AFPSGameModeBase
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable, Category = "Player Count")
+	void AddPlayerCount(int32 Amount);
 
+	UFUNCTION(BlueprintCallable, Category = "Player Count")
+	void DecreasePlayerCount(int32 Amount);
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
@@ -105,4 +109,7 @@ private:
 
 	UPROPERTY()
 	TMap<TSoftClassPtr<AFPSEnemyCharacter>, UClass*> PreloadedEnemyClassMap;  //  用于储存预加载的敌人类
+
+	UPROPERTY()
+	int32 CurrentAlivePlayerCount = 0;  //  当前存活的玩家数量
 };

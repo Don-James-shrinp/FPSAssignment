@@ -40,6 +40,13 @@ ETeamAttitude::Type AFPSAIController::GetTeamAttitudeTowards(const AActor& Other
 	return ETeamAttitude::Friendly;
 }
 
+AActor* AFPSAIController::GetRandomTarget()
+{
+	int32 RandomIndex = FMath::RandRange(0, PerceptedActors.Num() - 1);
+
+	return PerceptedActors[RandomIndex];
+}
+
 void AFPSAIController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -64,14 +71,8 @@ void AFPSAIController::BeginPlay()
 
 void AFPSAIController::OnEnemyPerceptionUpdated(AActor* Actor, FAIStimulus Stimulus)  //  将感知到的Actor更新
 {
-	if (UBlackboardComponent* BlackboardComponent = GetBlackboardComponent())
+	if (Stimulus.WasSuccessfullySensed() && Actor)
 	{
-		if (!BlackboardComponent->GetValueAsObject(TargetObjectKeyName))  //  此处只有在第一次赋值时才会去写入TargetActor的Value，这样会导致只会感知第一个感知的Actor，如果在多人的情况下可能需要修改
-		{
-			if (Stimulus.WasSuccessfullySensed() && Actor)
-			{
-				BlackboardComponent->SetValueAsObject(TargetObjectKeyName, Actor);
-			}
-		}
+		PerceptedActors.AddUnique(Actor);
 	}
 }

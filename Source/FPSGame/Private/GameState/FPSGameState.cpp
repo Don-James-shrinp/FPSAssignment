@@ -7,7 +7,7 @@
 
 void AFPSGameState::OnRep_CurrentGameState(ECompetitionGameState OldGameState)
 {
-	if (CurrentGameState == ECompetitionGameState::AllWaveDone)
+	if (CurrentGameState == ECompetitionGameState::GameOver)
 	{
         ShowScoreBoardUI();
 	}

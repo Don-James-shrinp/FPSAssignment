@@ -17,9 +17,12 @@ void AFPSPlayerState::AddKillCount(int32 Amount)
 
 void AFPSPlayerState::OnRep_KillCount(int32 OldKillCount)
 {
+	
 	//  TODO: 更新客户端UI，在屏幕右上角展示杀敌数
-	AFPSPlayerCharacter* Player = Cast<AFPSPlayerCharacter>(GetPlayerController()->GetPawn());
-	Player->GetPlayerUIComponent()->OnKillCountChanged.Broadcast(KillCount);
+	if (AFPSPlayerCharacter* Player = GetPawn<AFPSPlayerCharacter>())
+	{
+		Player->GetPlayerUIComponent()->OnKillCountChanged.Broadcast(KillCount);
+	}
 }
 
 void AFPSPlayerState::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const

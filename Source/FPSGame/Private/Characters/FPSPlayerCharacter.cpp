@@ -13,6 +13,7 @@
 #include "AbilitySystem/FPSAbilitySystemComponent.h"
 #include "Components/Combat/PlayerCombatComponent.h"
 #include "Components/UI/PlayerUIComponent.h"
+#include "GameModes/FPSCompetitionGameMode.h"
 
 AFPSPlayerCharacter::AFPSPlayerCharacter()
 {
@@ -123,6 +124,25 @@ void AFPSPlayerCharacter::PossessedBy(AController* NewController)
 			int32 AbilityApplyLevel = 1;
 
 			LoadedData->GiveToAbilitySystemComponent(FPSAbilitySystemComponent, AbilityApplyLevel);
+		}
+	}
+}
+
+void AFPSPlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	if (HasAuthority())
+	{
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			AFPSCompetitionGameMode* FPSGameMode = Cast<AFPSCompetitionGameMode>(World->GetAuthGameMode());
+			
+			if (FPSGameMode)
+			{
+				FPSGameMode->AddPlayerCount(1);
+			}
 		}
 	}
 }

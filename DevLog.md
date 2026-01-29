@@ -6,11 +6,15 @@
 - [x] 实现敌人AI
 - [x] 实现完整的GameLoop
 - [x] 网络同步（敌人的属性信息、状态）、玩家的分数
-- [ ] 重构项目，减少冗余资产，由于本项目有些Ability存在重合，不需要实现两份
+- [x] 重构项目，减少冗余资产，由于本项目有些Ability存在重合，不需要实现两份
 - [x] 撰写伤害结算与施加到目标上的实现流程
 - [x] 使用Animation Retarget将mixamo的动画导入到当前项目的骨骼上
-- [ ] 将子弹对象池实现为WorldSubsystem，减少多人场景下每个玩家武器都挂载BulletPool导致的冗余子弹生成
-- [ ] 将武器的Fire实现为RPC的形式，因为客户端需要传入其Controller的Forward Vector作为子弹生成时的Direction，通过RPC传入此参数，由服务端的Subsystem获取子弹，并同步给客户端
+- [x] 实现结算UI
+- [x] 将子弹对象池实现为WorldSubsystem，减少多人场景下每个玩家武器都挂载BulletPool导致的冗余子弹生成
+- [x] 将武器的Fire实现为RPC的形式，因为客户端需要传入其Controller的Forward Vector作为子弹生成时的Direction，通过RPC传入此参数，由服务端的Subsystem获取子弹，并同步给客户端
+- [x] 维护存活玩家的数量，当存活玩家数量归零时也进入结算界面
+- [x] AI Perception Component目标选择策略（目前仅会识别一个Target，应该维护一个Target List）
+- [x] 玩家死亡状态
 
 ## 项目地址
 

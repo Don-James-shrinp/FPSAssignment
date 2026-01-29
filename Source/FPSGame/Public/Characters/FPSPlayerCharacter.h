@@ -33,6 +33,7 @@ protected:
 	/** Allows a Pawn to set up custom input bindings. Called upon possession by a PlayerController, using the InputComponent created by CreatePlayerInputComponent(). */
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;  //  APawn提供的接口，用于进行自定义的输入绑定
 	virtual void PossessedBy(AController* NewController) override;
+	virtual void BeginPlay() override;
 
 private:
 #pragma region Components

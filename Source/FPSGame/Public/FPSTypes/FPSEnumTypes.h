@@ -20,6 +20,5 @@ enum class ECompetitionGameState : uint8
 	SpawningWave,	//  生成新一波的敌人
 	InBattle,   //  生成完后处于战斗状态
 	WaveComplete,  //  当前波次结束
-	AllWaveDone,	//  所有波次结束
-	PlayerDied
+	GameOver,	//  所有波次结束
 };

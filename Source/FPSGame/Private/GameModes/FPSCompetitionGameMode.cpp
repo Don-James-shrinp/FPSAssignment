@@ -10,6 +10,21 @@
 
 #include "FPSDebugHelper.h"
 
+void AFPSCompetitionGameMode::AddPlayerCount(int32 Amount)
+{
+	CurrentAlivePlayerCount += Amount;
+}
+
+void AFPSCompetitionGameMode::DecreasePlayerCount(int32 Amount)
+{
+	CurrentAlivePlayerCount -= Amount;
+
+	if (CurrentAlivePlayerCount == 0)
+	{
+		SetCurrentGameState(ECompetitionGameState::GameOver);
+	}
+}
+
 void AFPSCompetitionGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -59,8 +74,7 @@ void AFPSCompetitionGameMode::Tick(float DeltaTime)
 			TimeElapsedSinceStart = 0.f;
 			if (IsAllWaveDone())
 			{
-				Debug::Print(TEXT("All Wave Done!"));
-				SetCurrentGameState(ECompetitionGameState::AllWaveDone);
+				SetCurrentGameState(ECompetitionGameState::GameOver);
 			}
 			else
 			{

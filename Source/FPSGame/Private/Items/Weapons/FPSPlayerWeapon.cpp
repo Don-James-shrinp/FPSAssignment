@@ -31,3 +31,8 @@ void AFPSPlayerWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AFPSPlayerWeapon, CurrentAmmoNumber);
 }
+
+void AFPSPlayerWeapon::ConsumeAmmo()
+{
+	CurrentAmmoNumber--;
+}
